@@ -1,0 +1,18 @@
+{
+  "author": "Franklin van de Meent <fr@nkl.in> (http://frankl.in/)",
+  "name": "piwik",
+  "description": "Access a Piwik API from node.js",
+  "version": "0.1.0",
+  "homepage": "http://fvdm.github.com/nodejs-piwik",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fvdm/nodejs-piwik.git"
+  },
+  "main": "piwik.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
