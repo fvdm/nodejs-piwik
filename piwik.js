@@ -64,9 +64,26 @@ app.api = function( vars, cb ) {
 		},
 		function( response ) {
 			
-			var data = ''
-			response.on( 'data', function( chunk ) { data += chunk })
+			var data = []
+			var size = 0
+			
+			response.on( 'data', function( chunk ) {
+				data.push( chunk )
+				size += chunk.length
+			})
+			
 			response.on( 'end', function() {
+				
+				// build data
+				var buf = new Buffer( size )
+				var pos = 0
+				
+				for( var d in data ) {
+					data[d].copy( buf, pos )
+					pos += data[d].length
+				}
+				
+				data = buf.toString('utf8').trim()
 				
 				// callback
 				if( data.substr(0,1) == '[' && data.substr(-1,1) == ']' ) {
