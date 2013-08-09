@@ -1,18 +1,29 @@
 {
-  "author": "Franklin van de Meent <fr@nkl.in> (http://frankl.in/)",
-  "name": "piwik",
-  "description": "Access a Piwik API from node.js",
-  "version": "0.1.0",
-  "homepage": "http://fvdm.github.com/nodejs-piwik",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fvdm/nodejs-piwik.git"
+  "author": {
+  	"name":                          "Franklin van de Meent",
+  	"email":                         "fr@nkl.in",
+  	"url":                           "http://frankl.in"
   },
-  "main": "piwik.js",
+  "name":                            "piwik",
+  "description":                     "Access a Piwik API from node.js",
+  "version":                         "0.1.0",
+  "repository": {
+    "type":                          "git",
+    "url":                           "git://github.com/fvdm/nodejs-piwik.git"
+  },
+  "bugs": {
+	  "url":                         "https://github.com/fvdm/nodejs-piwik/issues"
+  },
+  "main":                            "piwik.js",
   "dependencies": {},
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
-    "node": "*"
+    "node":                          "*"
+  },
+  "keywords":                        ["piwik", "stats", "statistics", "tracking", "analytics", "api"],
+  "license": {
+	"type":                          "Public Domain",
+	"url":                           "https://github.com/fvdm/nodejs-piwik/raw/master/UNLICENSE"
   }
 }
