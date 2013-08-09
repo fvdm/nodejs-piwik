@@ -1,9 +1,5 @@
 /*
-	This module is COPYLEFT meaning you can do anything you want,
-	except copyrighting it.
-	
-	It would be nice to include the source URL for future reference:
-	https://github.com/fvdm/nodejs-piwik/
+License:      Unlicense / Public Domain (see UNLICENSE file)
 */
 
 // INIT
