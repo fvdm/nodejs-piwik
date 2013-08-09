@@ -19,13 +19,13 @@ app.setup = function( baseURL, token ) {
 	switch( url.protocol ) {
 		case 'http:':
 			app.http = require('http')
-			app.settings.apiport = url.port ? url.port : 80
+			app.settings.apiport = url.port || 80
 			break
 		
 		case 'https:':
 			app.http = require('https')
-			app.settings.apiport = url.port ? url.port : 443
-			break;
+			app.settings.apiport = url.port || 443
+			break
 	}
 	
 	// token in baseURL?
