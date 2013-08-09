@@ -7,17 +7,27 @@ This a [node.js](http://nodejs.org/) module to access a Piwik API.
 Installation
 ------------
 
-**npm install piwik**
+### From [npm](https://npmjs.org/package/piwik)
 
-```js
-var piwik = require('piwik');
-```
+The release on npm is always the latest stable version.
 
-### From source
+	npm install piwik
 
-```js
-var piwik = require('./piwik.js');
-```
+
+### From git repository
+
+The version on the git repo is the most recent code, but may be unstable.
+
+	npm install git+https://github.com/fvdm/nodejs-piwik
+
+
+When Github is unavailable again, you can try the Bitbucket repo:
+
+	npm install git+https://bitbucket.org/fvdm/nodejs-piwik
+
+
+It is my intention to keep both repositories synchronised.
+
 
 Setup
 -----
