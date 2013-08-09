@@ -7,11 +7,9 @@ License:      Unlicense / Public Domain (see UNLICENSE file)
 */
 
 // INIT
-var	EventEmitter = require('events').EventEmitter,
-	urltool = require('url'),
-	querystring = require('querystring');
+var	urltool = require('url')
+var querystring = require('querystring')
 
-var app = new EventEmitter();
 app.settings = {};
 
 // SETUP basics
