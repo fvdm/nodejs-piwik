@@ -48,6 +48,10 @@ Check out the [Piwik API Reference](http://piwik.org/docs/analytics-api/referenc
 	method   This property is required to set the method.
 
 ```js
+var piwik = require('piwik')
+
+piwik.setup( 'https://example.net/piwik/', 'abcd1234' )
+
 // page urls for today
 piwik.api({
   method:   'Actions.getPageUrls',
