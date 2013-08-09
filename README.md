@@ -3,9 +3,9 @@ nodejs-piwik
 
 This a [node.js](http://nodejs.org/) module to access a Piwik API.
 
-## Installation
 
-### From NPM
+Installation
+------------
 
 **npm install piwik**
 
@@ -19,7 +19,8 @@ var piwik = require('piwik');
 var piwik = require('./piwik.js');
 ```
 
-## Setup
+Setup
+-----
 
 You need to run **setup()** first in order to use this module.
 
@@ -32,7 +33,9 @@ You need to run **setup()** first in order to use this module.
 piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' );
 ```
 
-## Usage
+
+Usage
+-----
 
 To get or set data use the **api()** function. It returns the parsed JSON object as received from the API. Check out the [Piwik API Reference](http://piwik.org/docs/analytics-api/reference/) for methods.
 
