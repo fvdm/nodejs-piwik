@@ -1,4 +1,8 @@
 /*
+Name:         piwik
+Description:  Access a Piwik API from node.js.
+Source:       https://github.com/fvdm/nodejs-piwik
+Feedback:     https://github.com/fvdm/nodejs-piwik/issues
 License:      Unlicense / Public Domain (see UNLICENSE file)
 */
 
