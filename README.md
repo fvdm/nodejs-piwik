@@ -35,7 +35,7 @@ In order to use this module you need to start with `setup()`.
 	token     optional   Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
 
 ```js
-piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' );
+piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
 ```
 
 
@@ -58,7 +58,7 @@ piwik.api({
   idSite:   1,
   period:   'day',
   date:     'today'
-}, console.log );
+}, console.log )
 ```
 
 
