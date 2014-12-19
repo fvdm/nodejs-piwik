@@ -48,8 +48,12 @@ app.api = function( vars, cb ) {
   vars.module = 'API'
   vars.format = 'JSON'
   vars.token_auth = app.settings.token
+  get( {query: vars}, cb )
+}
 
-  app.http.get(
+// HTTP GET
+function get( props, cb ) {
+  http.get(
     {
       host: app.settings.apihost,
       port: app.settings.apiport,
