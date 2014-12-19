@@ -41,6 +41,17 @@ piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
 ```
 
 
+api ( vars, callback )
+---
+
+Call an API method.
+
+argument | type     | required | description
+-------- | -------- | -------- | -----------
+vars     | object   | yes      | See Usage example below
+callback | function | yes      | function ( data )
+
+
 Usage
 -----
 
