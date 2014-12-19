@@ -8,6 +8,7 @@ License:      Unlicense / Public Domain (see UNLICENSE file)
 
 var urltool = require('url')
 var querystring = require('querystring')
+var http = null
 
 var app = {settings: {}}
 
@@ -17,12 +18,12 @@ app.setup = function( baseURL, token ) {
 
   switch( url.protocol ) {
     case 'http:':
-      app.http = require('http')
+      http = require('http')
       app.settings.apiport = url.port || 80
       break
 
     case 'https:':
-      app.http = require('https')
+      http = require('https')
       app.settings.apiport = url.port || 443
       break
   }
