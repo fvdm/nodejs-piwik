@@ -1,38 +1,40 @@
-nodejs-piwik
-============
+piwik
+=====
 
-This a [node.js](http://nodejs.org/) module to access a Piwik API.
+Access a Piwik API from javascript.
+
+* [node.js](http://nodejs.org/)
+* [Piwik](http://piwik.org/)
+* [API documentation](http://developer.piwik.org/api-reference/reporting-api-introduction)
 
 
 Installation
 ------------
 
-### From [npm](https://npmjs.org/package/piwik)
+#### From npm
 
-The release on npm is always the latest stable version.
+The release on [npm](https://npmjs.org/package/piwik) is always the latest stable version.
 
-	npm install piwik
+`npm install piwik`
 
 
-### From git
+#### From git
 
 The version on the git repositories is the most recent code, but may be unstable.
-You can use my [Github](https://github.com/fvdm/nodejs-piwik) or [Bitbucket](https://bitbucket.org/fvdm/nodejs-piwik) repo, both are synchronized.
 
-	npm install git+https://github.com/fvdm/nodejs-piwik
-
-	npm install git+https://bitbucket.org/fvdm/nodejs-piwik
+`npm install fvdm/nodejs-piwik`
 
 
-Setup
+setup ( baseURL, [token] )
 -----
 
 In order to use this module you need to start with `setup()`.
 
-### setup ( baseURL, [token] )
+argument | type   | required | description
+-------- | ------ | -------- | -----------
+baseURL  | string | yes      | The URL to your Piwik installation. Both HTTP and HTTPS are supported.
+token    | string | no       | Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
 
-	baseURL   required   The URL to your Piwik installation. Both HTTP and HTTPS are supported.
-	token     optional   Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
 
 ```js
 piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
@@ -45,7 +47,8 @@ Usage
 To get or set data use the **api()** function. It returns the parsed JSON object as received from the API.
 Check out the [Piwik API Reference](http://piwik.org/docs/analytics-api/reference/) for methods.
 
-	method   This property is required to set the method.
+This property is required to set the `method`
+
 
 ```js
 var piwik = require('piwik')
