@@ -83,8 +83,9 @@ app.api = function( vars, cb ) {
 				data = buf.toString('utf8').trim()
 				
 				// callback
-				data = data.trim()
-				if( data.substr(0,1) == '[' && data.substr(-1,1) == ']' ) {
+				var left = /\[|\{/
+				var right = /\]|\}/
+				if( left.test( data.substr(0,1) ) && right.test( data.substr(-1,1) ) ) {
 					cb( JSON.parse( data ) )
 				}
 				
