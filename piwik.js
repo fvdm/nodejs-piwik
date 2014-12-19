@@ -51,13 +51,23 @@ app.api = function( vars, cb ) {
   get( {query: vars}, cb )
 }
 
+// Track
+app.track = function( vars, cb ) {
+  vars = typeof vars === 'object' ? vars : {}
+  vars.rec = 1
+  if( app.settings.token ) {
+    vars.token_auth = app.settings.token
+  }
+  get( {path: 'piwik.php', query: vars}, cb )
+}
+
 // HTTP GET
 function get( props, cb ) {
   http.get(
     {
       host: app.settings.apihost,
       port: app.settings.apiport,
-      path: app.settings.apipath +'?'+ querystring.stringify( vars )
+      path: app.settings.apipath + (props.path || '') +'?'+ querystring.stringify( props.query )
     },
     function( response ) {
       var data = []
