@@ -64,16 +64,7 @@ app.api = function( vars, cb ) {
       })
 
       response.on( 'end', function() {
-        var buf = new Buffer( size )
-        var pos = 0
-
-        for( var d in data ) {
-          data[d].copy( buf, pos )
-          pos += data[d].length
-        }
-
-        data = buf.toString('utf8').trim()
-
+        data = new Buffer.concat( data, size ).toString().trim()
         var left = /\[|\{/
         var right = /\]|\}/
         if( left.test( data.substr(0,1) ) && right.test( data.substr(-1,1) ) ) {
