@@ -40,6 +40,8 @@ app.setup = function( baseURL, token ) {
 
   app.settings.apihost = url.hostname
   app.settings.apipath = url.pathname
+  
+  return app
 }
 
 // API call
@@ -49,6 +51,7 @@ app.api = function( vars, cb ) {
   vars.format = 'JSON'
   vars.token_auth = app.settings.token
   get( {query: vars}, cb )
+  return app
 }
 
 // Track
@@ -59,6 +62,7 @@ app.track = function( vars, cb ) {
     vars.token_auth = app.settings.token
   }
   get( {path: 'piwik.php', query: vars}, cb )
+  return app
 }
 
 // HTTP GET
