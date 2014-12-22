@@ -40,7 +40,7 @@ app.setup = function( baseURL, token ) {
 
   app.settings.apihost = url.hostname
   app.settings.apipath = url.pathname
-  
+
   return app
 }
 
