@@ -87,11 +87,8 @@ function get( props, cb ) {
 
       response.on( 'end', function() {
         data = new Buffer.concat( data, size ).toString().trim()
-        var left = /\[|\{/
-        var right = /\]|\}/
-        if( left.test( data.substr(0,1) ) && right.test( data.substr(-1,1) ) ) {
-          cb( JSON.parse( data ) )
-        }
+        try { data = JSON.parse( data ) } catch(e) {}
+        cb( data )
       })
     }
   )
