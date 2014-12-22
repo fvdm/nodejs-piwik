@@ -70,6 +70,14 @@ app.track = function( vars, cb ) {
 
 // HTTP GET
 function get( props, cb ) {
+  var keys = Object.keys( props.query )
+  for( var i = 0; i < keys.length; i++ ) {
+    var key = keys[i]
+    if( typeof props.query[ key ] === 'object' ) {
+      props.query[ key ] = JSON.stringify( props.query[ key ] )
+    }
+  }
+
   http.get(
     {
       host: app.settings.apihost,
