@@ -53,6 +53,7 @@ argument | type     | required | description
 vars     | object   | yes      | object, see docs
 callback | function | yes      | function ( data )
 
+[Reporting API docs](http://developer.piwik.org/api-reference/reporting-api-introduction)
 
 
 ```js
