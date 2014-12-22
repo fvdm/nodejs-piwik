@@ -37,6 +37,7 @@ token    | string | no       | Your API access token. Either set `token` or incl
 
 
 ```js
+var piwik = require('piwik')
 piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
 ```
 
