@@ -3,6 +3,8 @@ piwik
 
 Access a Piwik API from javascript.
 
+[![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
+
 * [node.js](http://nodejs.org/)
 * [Piwik](http://piwik.org/)
 * [API documentation](http://developer.piwik.org/api-reference/reporting-api-introduction)
