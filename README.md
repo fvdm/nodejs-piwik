@@ -66,6 +66,31 @@ piwik.api({
 ```
 
 
+track ( vars, callback )
+-----
+
+Track a hit.
+
+
+argument | type     | required | description
+-------- | -------- | -------- | -----------------
+vars     | object   | yes      | object, see docs
+callback | function | yes      | function ( data )
+
+[Tracking API docs](http://developer.piwik.org/api-reference/tracking-api)
+
+
+```js
+// track a pageview
+piwik.track({
+  idsite:      1,
+  url:         'http://mysite.tld/some/page',
+  action_name: 'Page Title',
+  _cvar:       { '1': ['group', 'customer'] }
+}, console.log )
+```
+
+
 Unlicense
 ---------
 
