@@ -18,9 +18,9 @@ The release on [npm](https://npmjs.org/package/piwik) is always the latest stabl
 `npm install piwik`
 
 
-#### From git
+#### From source
 
-The version on the git repositories is the most recent code, but may be unstable.
+The version on the git repository is the most recent code, but may be unstable.
 
 `npm install fvdm/nodejs-piwik`
 
@@ -46,9 +46,10 @@ api ( vars, callback )
 
 Call an API method.
 
+
 argument | type     | required | description
--------- | -------- | -------- | -----------
-vars     | object   | yes      | See Usage example below
+-------- | -------- | -------- | -----------------
+vars     | object   | yes      | object, see docs
 callback | function | yes      | function ( data )
 
 
