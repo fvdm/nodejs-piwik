@@ -78,7 +78,8 @@ queue.push( function() {
   piwik.track(
     {
       idsite: siteId,
-      url: 'https://www.npmjs.com/package/piwik'
+      url: 'https://www.npmjs.com/package/piwik',
+      cvar: { '1': ['node test', process.version] }
     },
     function( data ) {
       doTest( null, 'track', [
