@@ -61,7 +61,9 @@ app.track = function( vars, cb ) {
   if( app.settings.token ) {
     vars.token_auth = app.settings.token
   }
-  get( {path: 'piwik.php', query: vars}, cb )
+  get( {path: 'piwik.php', query: vars}, function( data ) {
+    cb( data.substr(0,3) === 'GIF' )
+  })
   return app
 }
 
