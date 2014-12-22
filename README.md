@@ -1,7 +1,7 @@
 piwik
 =====
 
-Access a Piwik API from javascript.
+Piwik API access and tracking with node.js
 
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 
