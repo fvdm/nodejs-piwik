@@ -54,20 +54,8 @@ vars     | object   | yes      | object, see docs
 callback | function | yes      | function ( data )
 
 
-Usage
------
-
-To get or set data use the **api()** function. It returns the parsed JSON object as received from the API.
-Check out the [Piwik API Reference](http://piwik.org/docs/analytics-api/reference/) for methods.
-
-This property is required to set the `method`
-
 
 ```js
-var piwik = require('piwik')
-
-piwik.setup( 'https://example.net/piwik/', 'abcd1234' )
-
 // page urls for today
 piwik.api({
   method:   'Actions.getPageUrls',
