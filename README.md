@@ -52,7 +52,7 @@ Call an API method.
 
 argument | type     | required | description
 -------- | -------- | -------- | -----------------
-vars     | object   | yes      | object, see docs
+vars     | object   | yes      | see docs
 callback | function | yes      | function ( data )
 
 [Reporting API docs](http://developer.piwik.org/api-reference/reporting-api-introduction)
@@ -77,7 +77,7 @@ Track a hit.
 
 argument | type     | required | description
 -------- | -------- | -------- | -----------------
-vars     | object   | yes      | object, see docs
+vars     | object   | yes      | see docs
 callback | function | yes      | function ( data )
 
 [Tracking API docs](http://developer.piwik.org/api-reference/tracking-api)
