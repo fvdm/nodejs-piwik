@@ -58,6 +58,7 @@ app.api = function( vars, cb ) {
 app.track = function( vars, cb ) {
   vars = typeof vars === 'object' ? vars : {}
   vars.rec = 1
+  vars.apiv = 1
   if( app.settings.token ) {
     vars.token_auth = app.settings.token
   }
