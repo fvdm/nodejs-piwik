@@ -15,7 +15,7 @@ Installation
 
 #### From npm
 
-The release on [npm](https://npmjs.org/package/piwik) is always the latest stable version.
+The release on [npm](https://www.npmjs.com/package/piwik) is always the latest stable version.
 
 `npm install piwik`
 
