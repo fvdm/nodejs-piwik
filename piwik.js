@@ -92,7 +92,7 @@ app.track = function( vars, cb ) {
       body: JSON.stringify( bulk )
     },
     function( err, data ) {
-      if( err ) { return callback( err ) }
+      if( err ) { return cb( err ) }
       if( data.status === 'success' ) {
         cb( null, data )
       } else {
