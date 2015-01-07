@@ -161,6 +161,15 @@ function talk( props, cb ) {
 
     response.on( 'end', function() {
       data = new Buffer.concat( data, size ).toString().trim()
+
+      if( response.statusCode >= 300 ) {
+        var error = new Error('http error')
+        error.code = response.statusCode
+        error.body = data
+        callback( error )
+        return
+      }
+
       try {
         data = JSON.parse( data )
         callback( null, data )
