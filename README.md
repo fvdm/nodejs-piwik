@@ -39,8 +39,7 @@ token    | string | no       | Your API access token. Either set `token` or incl
 
 
 ```js
-var piwik = require('piwik')
-piwik.setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
+var piwik = require('piwik').setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
 ```
 
 
@@ -152,5 +151,5 @@ Author
 ------
 
 Franklin van de Meent
-| [Website](http://frankl.in)
+| [Website](https://frankl.in)
 | [Github](https://github.com/fvdm)
