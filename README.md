@@ -118,6 +118,35 @@ piwik.track(
 ```
 
 
+Callback and Errors
+-------------------
+
+The callback function receives two parameters: `err` and `data`.
+When an error occurs `err` is an instance of `Error`.
+When all is good `err` is `null` and `data` is set.
+
+
+message          | description
+---------------- | -----------------------------------------
+request failed   | Request cannot be made
+request dropped  | Request closed too early
+response invalid | Server returned invalid data
+http error       | HTTP error, see `err.code` and `err.body`
+api error        | API error, see `err.text`
+track failed     | Track method failed, see `err.data`
+
+
+```js
+piwik.api( props, function( err, data ) {
+  if( err ) {
+    console.log( err )
+  } else {
+    console.log( data )
+  }
+})
+```
+
+
 Unlicense
 ---------
 
