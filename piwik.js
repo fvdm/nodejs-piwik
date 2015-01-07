@@ -50,57 +50,140 @@ app.api = function( vars, cb ) {
   vars.module = 'API'
   vars.format = 'JSON'
   vars.token_auth = app.settings.token
-  get( {query: vars}, cb )
+  talk( {method: 'GET', query: vars}, cb )
   return app
 }
 
 // Track
 app.track = function( vars, cb ) {
-  vars = typeof vars === 'object' ? vars : {}
-  vars.rec = 1
-  vars.apiv = 1
-  if( app.settings.token ) {
-    vars.token_auth = app.settings.token
+  var bulk = { requests: [] }
+  if( app.settings.token ) { bulk.token_auth = app.settings.token }
+
+  if( vars instanceof Array && vars[0] instanceof Object ) {
+    // array with objects
+    for( var i = 0; i < vars.length; i++ ) {
+      var keys = Object.keys( vars[i] )
+      for( var k = 0; k < keys.length; k++ ) {
+        var val = vars[i][ keys[k] ]
+        vars[i][ keys[k] ] = typeof val === 'object' ? JSON.stringify( val ) : val
+      }
+      vars[i].rec = 1
+      vars[i].apiv = 1
+      vars[i] = '?'+ querystring.stringify( vars[i] )
+      bulk.requests.push( vars[i] )
+      delete vars[i]
+    }
+  } else if( vars instanceof Object ) {
+    // object
+    var keys = Object.keys( vars )
+    for( var k = 0; k < keys.length; k++ ) {
+      var val = vars[ keys[k] ]
+      vars[ keys[k] ] = typeof val === 'object' ? JSON.stringify( val ) : val
+    }
+    vars.rec = 1
+    vars.apiv = 1
+    bulk.requests.push( '?'+ querystring.stringify( vars ) )
   }
-  get( {path: 'piwik.php', query: vars}, function( data ) {
-    cb( data.substr(0,3) === 'GIF' )
-  })
+
+  talk(
+    {
+      method: 'POST',
+      path: 'piwik.php',
+      body: JSON.stringify( bulk )
+    },
+    function( err, data ) {
+      if( err ) { return callback( err ) }
+      if( data.status === 'success' ) {
+        cb( null, data )
+      } else {
+        var error = new Error('track failed')
+        error.data = data
+        cb( error )
+      }
+    }
+  )
+
   return app
 }
 
 // HTTP GET
-function get( props, cb ) {
-  var keys = Object.keys( props.query )
-  for( var i = 0; i < keys.length; i++ ) {
-    var key = keys[i]
-    if( typeof props.query[ key ] === 'object' ) {
-      props.query[ key ] = JSON.stringify( props.query[ key ] )
+function talk( props, cb ) {
+  // prevent multiple callbacks
+  var complete = false
+  function callback( err, res ) {
+    if( !complete ) {
+      complete = true
+      cb( err, res || null )
     }
   }
 
-  http.get(
-    {
-      host: app.settings.apihost,
-      port: app.settings.apiport,
-      path: app.settings.apipath + (props.path || '') +'?'+ querystring.stringify( props.query )
-    },
-    function( response ) {
-      var data = []
-      var size = 0
-
-      response.on( 'data', function( chunk ) {
-        data.push( chunk )
-        size += chunk.length
-      })
-
-      response.on( 'end', function() {
-        data = new Buffer.concat( data, size ).toString().trim()
-        try { data = JSON.parse( data ) } catch(e) {}
-        cb( data )
-      })
+  // build request
+  var query = ''
+  if( props.query instanceof Object ) {
+    var keys = Object.keys( props.query )
+    for( var i = 0; i < keys.length; i++ ) {
+      var key = keys[i]
+      if( typeof props.query[ key ] === 'object' ) {
+        props.query[ key ] = JSON.stringify( props.query[ key ] )
+      }
     }
-  )
+    query = '?'+ querystring.stringify( props.query )
+  }
+
+  var options = {
+    host: app.settings.apihost,
+    port: app.settings.apiport,
+    path: app.settings.apipath + (props.path || '') + query,
+    method: props.method || 'GET',
+    headers: {}
+  }
+
+  if( props.method === 'POST' && typeof props.body === 'string' ) {
+    options.headers['Content-Type'] = 'application/json'
+    options.headers['Content-Length'] = props.body.length
+  }
+
+  var request = http.request( options )
+
+  // response
+  request.on( 'response', function( response ) {
+    var data = []
+    var size = 0
+
+    response.on( 'close', function() {
+      callback( new Error('request dropped') )
+    })
+
+    response.on( 'data', function( chunk ) {
+      data.push( chunk )
+      size += chunk.length
+    })
+
+    response.on( 'end', function() {
+      data = new Buffer.concat( data, size ).toString().trim()
+      try {
+        data = JSON.parse( data )
+        callback( null, data )
+      }
+      catch(e) {
+        var error = new Error('response invalid')
+        error.code = response.statusCode
+        error.body = data
+        callback( error )
+      }
+    })
+  })
+
+  // client error
+  request.on( 'error', function( error ) {
+    var err = new Error('request failed')
+    err.error = error
+    callback( err )
+  })
+
+  // run it
+  request.end( props.body || null )
 }
 
-// ready
+// module
 module.exports = app

@@ -51,21 +51,25 @@ Call an API method.
 
 
 argument | type     | required | description
--------- | -------- | -------- | -----------------
+-------- | -------- | -------- | ----------------------
 vars     | object   | yes      | see docs
-callback | function | yes      | function ( data )
+callback | function | yes      | function ( err, data )
+
 
 [Reporting API docs](http://developer.piwik.org/api-reference/reporting-api-introduction)
 
 
 ```js
 // page urls for today
-piwik.api({
-  method:   'Actions.getPageUrls',
-  idSite:   1,
-  period:   'day',
-  date:     'today'
-}, console.log )
+piwik.api(
+  {
+    method:   'Actions.getPageUrls',
+    idSite:   1,
+    period:   'day',
+    date:     'today'
+  },
+  console.log
+)
 ```
 
 
@@ -75,22 +79,43 @@ track ( vars, callback )
 Track a hit.
 
 
-argument | type     | required | description
--------- | -------- | -------- | -----------------
-vars     | object   | yes      | see docs
-callback | function | yes      | function ( data )
+argument | type            | required | description
+-------- | --------------- | -------- | ----------------------
+vars     | object or array | yes      | see docs
+callback | function        | yes      | function ( err, data )
+
 
 [Tracking API docs](http://developer.piwik.org/api-reference/tracking-api)
 
 
 ```js
 // track a pageview
-piwik.track({
-  idsite:      1,
-  url:         'http://mysite.tld/some/page',
-  action_name: 'Page Title',
-  _cvar:       { '1': ['group', 'customer'] }
-}, console.log )
+piwik.track(
+  {
+    idsite:      1,
+    url:         'http://mysite.tld/some/page',
+    action_name: 'Page Title',
+    _cvar:       { '1': ['group', 'customer'] }
+  },
+  console.log
+)
+
+// track many at once (log import)
+piwik.track(
+  [
+    {
+      idsite:      1,
+      url:         'http://mysite.tld/some/page',
+      action_name: 'Page Title',
+    },
+    {
+      idsite:      1,
+      url:         'http://mysite.tld/blog/123-hello',
+      action_name: 'Hello World',
+    }
+  ],
+  console.log
+)
 ```
 
 

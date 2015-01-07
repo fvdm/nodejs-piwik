@@ -72,7 +72,7 @@ function doTest( err, label, tests ) {
 }
 
 
-// ! Track
+// ! Track one
 queue.push( function() {
   piwik.track(
     {
@@ -80,9 +80,36 @@ queue.push( function() {
       url: 'https://www.npmjs.com/package/piwik',
       cvar: { '1': ['node test', process.version] }
     },
-    function( data ) {
-      doTest( null, 'track', [
-        ['data type', data]
+    function( err, data ) {
+      doTest( err, 'track one', [
+        ['data type', typeof data === 'object'],
+        ['data.status', data.status === 'success'],
+        ['data.tracked', data.tracked === 1]
+      ])
+    }
+  )
+})
+
+// ! Track multi
+queue.push( function() {
+  piwik.track(
+    [
+      {
+        idsite: siteId,
+        url: 'https://www.npmjs.com/package/piwik',
+        cvar: { '1': ['node test', process.version] }
+      },
+      {
+        idsite: siteId,
+        url: 'https://github.com/fvdm/nodejs-piwik',
+        cvar: { '1': ['node test', process.version] }
+      }
+    ],
+    function( err, data ) {
+      doTest( err, 'track multi', [
+        ['data type', typeof data === 'object'],
+        ['data.status', data.status === 'success'],
+        ['data.tracked', data.tracked === 2]
       ])
     }
   )
@@ -98,8 +125,8 @@ queue.push( function() {
       period: 'day',
       date: 'today'
     },
-    function( data ) {
-      doTest( null, 'api', [
+    function( err, data ) {
+      doTest( err, 'api', [
         ['data type', data instanceof Array],
         ['data length', data.length >= 1],
         ['item type', data[0] instanceof Object],
