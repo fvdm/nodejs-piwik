@@ -172,6 +172,14 @@ function talk( props, cb ) {
 
       try {
         data = JSON.parse( data )
+
+        if( data.result && data.result === 'error' ) {
+          var error = new Error('api error')
+          error.text = data.message
+          callback( error )
+          return
+        }
+
         callback( null, data )
       }
       catch(e) {
