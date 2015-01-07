@@ -83,8 +83,8 @@ queue.push( function() {
     function( err, data ) {
       doTest( err, 'track one', [
         ['data type', typeof data === 'object'],
-        ['data.status', data.status === 'success'],
-        ['data.tracked', data.tracked === 1]
+        ['data.status', data && data.status === 'success'],
+        ['data.tracked', data && data.tracked === 1]
       ])
     }
   )
@@ -108,8 +108,8 @@ queue.push( function() {
     function( err, data ) {
       doTest( err, 'track multi', [
         ['data type', typeof data === 'object'],
-        ['data.status', data.status === 'success'],
-        ['data.tracked', data.tracked === 2]
+        ['data.status', data && data.status === 'success'],
+        ['data.tracked', data && data.tracked === 2]
       ])
     }
   )
@@ -128,8 +128,8 @@ queue.push( function() {
     function( err, data ) {
       doTest( err, 'api', [
         ['data type', data instanceof Array],
-        ['data length', data.length >= 1],
-        ['item type', data[0] instanceof Object],
+        ['data length', data && data.length >= 1],
+        ['item type', data && data[0] instanceof Object],
         ['item label', data && data[0] && typeof data[0].label === 'string']
       ])
     })
