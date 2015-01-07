@@ -1,8 +1,7 @@
 var util = require('util')
 
 // Setup
-// set env BOLCOM_APIKEY (Travis CI)
-// or use cli arguments: npm test --bolapikey=abc123
+// $ env PIWIK_URL= PIWIK_TOKEN= PIWIK_SITEID= npm test
 var url = process.env.npm_config_piwikurl || process.env.PIWIK_URL || null
 var token = process.env.npm_config_piwiktoken || process.env.PIWIK_TOKEN || null
 var siteId = process.env.npm_config_piwiksiteid || process.env.PIWIK_SITEID || null
