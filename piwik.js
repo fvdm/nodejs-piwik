@@ -46,7 +46,7 @@ app.setup = function (baseURL, token) {
 
 // API call
 app.api = function (vars, cb) {
-  var vars = typeof vars == 'object' ? vars : {};
+  vars = typeof vars === 'object' ? vars : {};
   vars.module = 'API';
   vars.format = 'JSON';
   vars.token_auth = app.settings.token;
@@ -75,9 +75,10 @@ app.track = function (vars, cb) {
     }
   } else if (vars instanceof Object) {
     // object
-    var keys = Object.keys (vars);
-    for (var i = 0; i < keys.length; i++) {
-      var val = vars [keys [i]];
+    keys = Object.keys (vars);
+    var i, val;
+    for (i = 0; i < keys.length; i++) {
+      val = vars [keys [i]];
       vars [keys [i]] = typeof val === 'object' ? JSON.stringify (val) : val;
     }
     vars.rec = 1;
@@ -101,7 +102,7 @@ app.track = function (vars, cb) {
         cb (error);
       }
     }
- )
+  );
 
   return app;
 };
@@ -174,7 +175,7 @@ function talk (props, cb) {
         data = JSON.parse (data);
 
         if (data.result && data.result === 'error') {
-          var error = new Error ('api error');
+          error = new Error ('api error');
           error.text = data.message;
           callback (error);
           return;
