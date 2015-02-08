@@ -13,18 +13,9 @@ Piwik API access and tracking with node.js
 Installation
 ------------
 
-#### From npm
+Stable: `npm install piwik`
 
-The release on [npm](https://www.npmjs.com/package/piwik) is always the latest stable version.
-
-`npm install piwik`
-
-
-#### From source
-
-The version on the git repository is the most recent code, but may be unstable.
-
-`npm install fvdm/nodejs-piwik`
+Develop: `npm install fvdm/nodejs-piwik`
 
 
 setup ( baseURL, [token] )
