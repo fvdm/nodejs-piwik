@@ -2,9 +2,9 @@ var util = require ('util');
 
 // Setup
 // $ env PIWIK_URL= PIWIK_TOKEN= PIWIK_SITEID= npm test
-var url = process.env.PIWIK_URL || null
-var token = process.env.PIWIK_TOKEN || null
-var siteId = process.env.PIWIK_SITEID || null
+var url = process.env.PIWIK_URL || null;
+var token = process.env.PIWIK_TOKEN || null;
+var siteId = process.env.PIWIK_SITEID || null;
 
 var piwik = require ('./').setup (url, token);
 
@@ -140,7 +140,3 @@ queue.push (function () {
 // Start the tests
 console.log ('Running tests...\n');
 queue [0] ();
-
-function output (err, data) {
-  console.log (require ('util').inspect (err || data, false, 10));
-}
