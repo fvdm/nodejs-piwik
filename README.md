@@ -10,6 +10,25 @@ Piwik API access and tracking with node.js
 * [API documentation](http://developer.piwik.org/api-reference/reporting-api-introduction)
 
 
+Example
+-------
+
+```js
+var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+
+// track a pageview
+piwik.track (
+  {
+    idsite:      1,
+    url:         'http://mysite.tld/some/page',
+    action_name: 'Page Title',
+    _cvar:       { '1': ['group', 'customer'] }
+  },
+  console.log
+);
+```
+
+
 Installation
 ------------
 
