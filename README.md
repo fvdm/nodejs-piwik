@@ -30,7 +30,7 @@ token    | string | no       | Your API access token. Either set `token` or incl
 
 
 ```js
-var piwik = require('piwik').setup( 'https://example.tld/path/to/piwik/', 'abcd1234' )
+var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
 ```
 
 
@@ -51,7 +51,7 @@ callback | function | yes      | function ( err, data )
 
 ```js
 // page urls for today
-piwik.api(
+piwik.api (
   {
     method:   'Actions.getPageUrls',
     idSite:   1,
@@ -59,7 +59,7 @@ piwik.api(
     date:     'today'
   },
   console.log
-)
+);
 ```
 
 
@@ -80,7 +80,7 @@ callback | function        | yes      | function ( err, data )
 
 ```js
 // track a pageview
-piwik.track(
+piwik.track (
   {
     idsite:      1,
     url:         'http://mysite.tld/some/page',
@@ -88,10 +88,10 @@ piwik.track(
     _cvar:       { '1': ['group', 'customer'] }
   },
   console.log
-)
+);
 
 // track many at once (log import)
-piwik.track(
+piwik.track (
   [
     {
       idsite:      1,
@@ -105,7 +105,7 @@ piwik.track(
     }
   ],
   console.log
-)
+);
 ```
 
 
@@ -128,13 +128,13 @@ track failed     | Track method failed, see `err.data`
 
 
 ```js
-piwik.api( props, function( err, data ) {
-  if( err ) {
-    console.log( err )
+piwik.api (props, function (err, data) {
+  if (err) {
+    console.log (err);
   } else {
-    console.log( data )
+    console.log (data);
   }
-})
+});
 ```
 
 
@@ -173,3 +173,4 @@ Author
 Franklin van de Meent
 | [Website](https://frankl.in)
 | [Github](https://github.com/fvdm)
+
