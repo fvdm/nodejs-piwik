@@ -15,7 +15,7 @@ var http = null;
 var app = {settings: {}};
 
 // SETUP basics
-app.setup = function (baseURL, token) {
+app.setup = function (baseURL, token, timeout) {
   var url = urltool.parse (baseURL, true);
 
   if (url.protocol === 'https:') {
@@ -33,9 +33,12 @@ app.setup = function (baseURL, token) {
     app.settings.token = url.query.token_auth;
   }
 
-  // override with custom token, if any
-  if (token) {
+  // override with custom token, and set timeout
+  if (typeof token === 'number') {
+    app.settings.timeout = token;
+  } else if (token) {
     app.settings.token = token;
+    app.settings.timeout = timeout || 5000;
   }
 
   app.settings.apihost = url.hostname;
@@ -188,9 +191,23 @@ function talk (props, cb) {
     });
   });
 
+  // client timeout
+  request.on ('socket', function (socket) {
+    if (typeof api.settings.timeout === 'number') {
+      socket.setTimeout (parseInt (api.settings.timeout));
+      socket.on ('timeout', function () {
+        callback (new Error('request timeout'));
+        request.abort ();
+      });
+    }
+  });
+
   // client error
   request.on ('error', function (error) {
     var err = new Error ('request failed');
+    if (error.code === 'ECONNRESET') {
+      err = new Error ('request timeout');
+    }
     err.error = error;
     callback (err);
   });

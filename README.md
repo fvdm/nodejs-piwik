@@ -37,16 +37,16 @@ Stable: `npm install piwik`
 Develop: `npm install fvdm/nodejs-piwik`
 
 
-setup ( baseURL, [token] )
+setup ( baseURL, [token], [timeout] )
 -----
 
 In order to use this module you need to start with `setup()`.
 
-argument | type   | required | description
--------- | ------ | -------- | -----------
-baseURL  | string | yes      | The URL to your Piwik installation. Both HTTP and HTTPS are supported.
-token    | string | no       | Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
-
+argument | type    | required | description
+-------- | ------- | -------- | -----------
+baseURL  | string  | yes      | The URL to your Piwik installation. Both HTTP and HTTPS are supported.
+token    | string  | no       | Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
+timeout  | integer | no       | Request wait time out in ms, default `5000` (5 seconds).
 
 ```js
 var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
@@ -139,6 +139,7 @@ When all is good `err` is `null` and `data` is set.
 message          | description
 ---------------- | -----------------------------------------
 request failed   | Request cannot be made
+request timeout  | Request took too long to complete, see `err.error`
 request dropped  | Request closed too early
 response invalid | Server returned invalid data
 http error       | HTTP error, see `err.code` and `err.body`
