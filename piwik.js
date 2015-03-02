@@ -57,13 +57,13 @@ app.api = function (vars, cb) {
 // Track
 app.track = function (vars, cb) {
   var bulk = {requests: []};
-  var i, k, val;
+  var i, k, val, keys;
   if (app.settings.token) { bulk.token_auth = app.settings.token; }
 
   if (vars instanceof Array && vars[0] instanceof Object) {
     // array with objects
     for (i = 0; i < vars.length; i++) {
-      var keys = Object.keys (vars [i]);
+      keys = Object.keys (vars [i]);
       for (k = 0; k < keys.length; k++) {
         val = vars [i] [keys [k]];
         vars [i] [keys [k]] = typeof val === 'object' ? JSON.stringify (val) : val;
@@ -76,7 +76,7 @@ app.track = function (vars, cb) {
     }
   } else if (vars instanceof Object) {
     // object
-    var keys = Object.keys (vars);
+    keys = Object.keys (vars);
     for (i = 0; i < keys.length; i++) {
       val = vars [keys [i]];
       vars [keys [i]] = typeof val === 'object' ? JSON.stringify (val) : val;
