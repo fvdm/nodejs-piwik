@@ -46,7 +46,7 @@ app.setup = function( baseURL, token ) {
 
 // API call
 app.api = function( vars, cb ) {
-  var vars = typeof vars == 'object' ? vars : {}
+  vars = typeof vars == 'object' ? vars : {}
   vars.module = 'API'
   vars.format = 'JSON'
   vars.token_auth = app.settings.token
