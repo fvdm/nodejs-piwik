@@ -94,7 +94,7 @@ function get( props, cb ) {
       })
 
       response.on( 'end', function() {
-        data = new Buffer.concat( data, size ).toString().trim()
+        data = Buffer.concat( data, size ).toString().trim()
         try { data = JSON.parse( data ) } catch(e) {}
         cb( data )
       })
