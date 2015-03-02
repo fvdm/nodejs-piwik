@@ -34,7 +34,7 @@ Installation
 
 Stable: `npm install piwik`
 
-Develop: `npm install fvdm/nodejs-piwik`
+Develop: `npm install fvdm/nodejs-piwik#develop`
 
 
 setup ( baseURL, [token], [timeout] )
