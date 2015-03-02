@@ -140,8 +140,8 @@ function talk (props, cb) {
   };
 
   if (props.method === 'POST' && typeof props.body === 'string') {
-    options.headers['Content-Type'] = 'application/json';
-    options.headers['Content-Length'] = props.body.length;
+    options.headers ['Content-Type'] = 'application/json';
+    options.headers ['Content-Length'] = props.body.length;
   }
 
   var request = http.request (options);
@@ -161,7 +161,7 @@ function talk (props, cb) {
     });
 
     response.on ('end', function () {
-      data = new Buffer.concat (data, size).toString ().trim ();
+      data = new Buffer.concat (data, size) .toString () .trim ();
 
       if (response.statusCode >= 300) {
         var error = new Error ('http error');
