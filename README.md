@@ -53,8 +53,8 @@ var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
 ```
 
 
-api ( vars, callback )
----
+.api ( vars, callback )
+----
 
 Call an API method.
 
@@ -82,8 +82,8 @@ piwik.api (
 ```
 
 
-track ( vars, callback )
------
+.track ( vars, callback )
+------
 
 Track a hit.
 
