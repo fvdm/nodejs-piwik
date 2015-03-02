@@ -193,8 +193,8 @@ function talk (props, cb) {
 
   // client timeout
   request.on ('socket', function (socket) {
-    if (typeof api.settings.timeout === 'number') {
-      socket.setTimeout (parseInt (api.settings.timeout));
+    if (typeof app.settings.timeout === 'number') {
+      socket.setTimeout (parseInt (app.settings.timeout));
       socket.on ('timeout', function () {
         callback (new Error('request timeout'));
         request.abort ();
