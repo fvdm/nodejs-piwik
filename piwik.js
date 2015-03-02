@@ -169,7 +169,6 @@ function talk (props, cb) {
         error = new Error ('http error');
         error.code = response.statusCode;
         error.body = data;
-        return;
       }
 
       try {
@@ -177,7 +176,6 @@ function talk (props, cb) {
         if (data.result && data.result === 'error') {
           error = new Error ('api error');
           error.text = data.message;
-          return;
         }
       }
       catch (e) {
