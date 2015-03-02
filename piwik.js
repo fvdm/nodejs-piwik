@@ -186,7 +186,7 @@ function talk (props, cb) {
         error.code = response.statusCode;
         error.body = data;
       }
-      
+
       callback (error, !error ? data : null);
     });
   });
