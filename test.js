@@ -76,7 +76,7 @@ function doTest (err, label, tests) {
 queue.push (function () {
   piwik.api (
     {method: 'API.getPiwikVersion'},
-    function (err, data) {
+    function (err) {
       if (err) {
         console.log ('API access: failed ('+ err.message +')');
         console.log (err.stack);
