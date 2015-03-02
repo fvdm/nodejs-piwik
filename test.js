@@ -5,8 +5,9 @@ var util = require ('util');
 var url = process.env.PIWIK_URL || null;
 var token = process.env.PIWIK_TOKEN || null;
 var siteId = process.env.PIWIK_SITEID || null;
+var timeout = process.env.PIWIK_TIMEOUT || 5000;
 
-var piwik = require ('./').setup (url, token);
+var piwik = require ('./').setup (url, token, timeout);
 
 
 // handle exits
