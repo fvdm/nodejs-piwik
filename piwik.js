@@ -57,14 +57,15 @@ app.api = function (vars, cb) {
 // Track
 app.track = function (vars, cb) {
   var bulk = {requests: []};
+  var i, k, val;
   if (app.settings.token) { bulk.token_auth = app.settings.token; }
 
   if (vars instanceof Array && vars[0] instanceof Object) {
     // array with objects
-    for (var i = 0; i < vars.length; i++) {
+    for (i = 0; i < vars.length; i++) {
       var keys = Object.keys (vars [i]);
-      for (var k = 0; k < keys.length; k++) {
-        var val = vars [i] [keys [k]];
+      for (k = 0; k < keys.length; k++) {
+        val = vars [i] [keys [k]];
         vars [i] [keys [k]] = typeof val === 'object' ? JSON.stringify (val) : val;
       }
       vars [i].rec = 1;
@@ -75,8 +76,7 @@ app.track = function (vars, cb) {
     }
   } else if (vars instanceof Object) {
     // object
-    keys = Object.keys (vars);
-    var i, val;
+    var keys = Object.keys (vars);
     for (i = 0; i < keys.length; i++) {
       val = vars [keys [i]];
       vars [keys [i]] = typeof val === 'object' ? JSON.stringify (val) : val;
@@ -162,34 +162,31 @@ function talk (props, cb) {
     });
 
     response.on ('end', function () {
+      var error = null;
       data = Buffer.concat (data, size) .toString () .trim ();
 
       if (response.statusCode >= 300) {
-        var error = new Error ('http error');
+        error = new Error ('http error');
         error.code = response.statusCode;
         error.body = data;
-        callback (error);
         return;
       }
 
       try {
         data = JSON.parse (data);
-
         if (data.result && data.result === 'error') {
           error = new Error ('api error');
           error.text = data.message;
-          callback (error);
           return;
         }
-
-        callback (null, data);
       }
       catch (e) {
-        var error = new Error ('response invalid');
+        error = new Error ('response invalid');
         error.code = response.statusCode;
         error.body = data;
-        callback (error);
       }
+      
+      callback (error, !error ? data : null);
     });
   });
 
