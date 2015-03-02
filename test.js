@@ -7,7 +7,7 @@ var token = process.env.PIWIK_TOKEN || null;
 var siteId = process.env.PIWIK_SITEID || null;
 var timeout = process.env.PIWIK_TIMEOUT || 5000;
 
-var piwik = require ('./').setup (url, token, timeout);
+var piwik = require ('./') .setup (url, token, timeout);
 
 
 // handle exits
@@ -65,7 +65,7 @@ function doTest (err, label, tests) {
     if(testErrors.length === 0) {
       console.log (label +': \033[1m\033[32mok\033[0m');
     } else {
-      console.error (label +': \033[1m\033[31mfailed\033[0m ('+ testErrors.join(', ') +')');
+      console.error (label +': \033[1m\033[31mfailed\033[0m ('+ testErrors.join (', ') +')');
     }
   }
 
@@ -149,8 +149,8 @@ queue.push (function () {
       doTest (err, 'api', [
         ['data type', data instanceof Array],
         ['data length', data && data.length >= 1],
-        ['item type', data && data[0] instanceof Object],
-        ['item label', data && data[0] && typeof data[0].label === 'string']
+        ['item type', data && data [0] instanceof Object],
+        ['item label', data && data [0] && typeof data [0] .label === 'string']
       ]);
     }
   );
