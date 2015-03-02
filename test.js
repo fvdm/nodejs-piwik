@@ -55,12 +55,12 @@ function doTest (err, label, tests) {
     errors++;
   } else {
     var testErrors = [];
-    tests.forEach (function (test) {
-      if (test [1] !== true) {
-        testErrors.push (test [0]);
+    for (var i = 0; i < tests.length; i++) {
+      if (tests [i] [1] !== true) {
+        testErrors.push (tests [i] [0]);
         errors++;
       }
-    });
+    }
 
     if(testErrors.length === 0) {
       console.log (label +': \033[1m\033[32mok\033[0m');
