@@ -72,6 +72,25 @@ function doTest (err, label, tests) {
 }
 
 
+// ! API access
+queue.push (function () {
+  piwik.api (
+    {method: 'API.getPiwikVersion'},
+    function (err, data) {
+      if (err) {
+        console.log ('API access: failed ('+ err.message +')');
+        console.log (err.stack);
+        errors++;
+        process.exit (1);
+      } else {
+        console.log ('API access: \033[1m\033[32mok\033[0m');
+        doNext ();
+      }
+    }
+  );
+});
+
+
 // ! Track one
 queue.push (function () {
   piwik.track (
