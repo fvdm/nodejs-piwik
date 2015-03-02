@@ -18,16 +18,14 @@ var app = {settings: {}};
 app.setup = function (baseURL, token) {
   var url = urltool.parse (baseURL, true);
 
-  switch (url.protocol) {
-    case 'http:':
-      http = require ('http');
-      app.settings.apiport = url.port || 80;
-      break;
-
-    case 'https:':
-      http = require ('https');
-      app.settings.apiport = url.port || 443;
-      break;
+  if (url.protocol === 'https:') {
+    http = require ('https');
+    app.settings.apiprotocol = 'https:';
+    app.settings.apiport = url.port || 443;
+  } else {
+    http = require ('http');
+    app.settings.apiprotocol = 'http:';
+    app.settings.apiport = url.port || 80;
   }
 
   // token in baseURL?
@@ -134,6 +132,7 @@ function talk (props, cb) {
   }
 
   var options = {
+    protocol: app.settings.apiprotocol,
     host: app.settings.apihost,
     port: app.settings.apiport,
     path: app.settings.apipath + (props.path || '') + query,
