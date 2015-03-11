@@ -213,7 +213,7 @@ function talk (props, cb) {
   });
 
   // run it
-  request.end (props.body || null);
+  request.end (props.body);
 }
 
 // module
