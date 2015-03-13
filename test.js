@@ -92,6 +92,20 @@ queue.push (function () {
 });
 
 
+// ! API error
+queue.push (function () {
+  piwik.api (
+    {method: 'invalid method name'},
+    function (err, data) {
+      doTest (null, 'api error', [
+        ['type', err && err instanceof Error],
+        ['message', err && err.message === 'api error']
+      ]);
+    }
+  );
+});
+
+
 // ! Track one
 queue.push (function () {
   piwik.track (
