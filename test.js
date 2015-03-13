@@ -97,7 +97,7 @@ queue.push (function () {
   piwik.api (
     {method: 'invalid method name'},
     function (err, data) {
-      doTest (null, 'api error', [
+      doTest (null, 'API error', [
         ['type', err && err instanceof Error],
         ['message', err && err.message === 'api error']
       ]);
