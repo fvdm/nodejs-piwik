@@ -1,7 +1,7 @@
 /*
 Name:           piwik
 Description:    Access a Piwik API or track hits with node.js
-Author:         Franklin van de Meent (http://frankl.in)
+Author:         Franklin van de Meent (https://frankl.in)
 Source & docs:  https://github.com/fvdm/nodejs-piwik
 Feedback:       https://github.com/fvdm/nodejs-piwik/issues
 License:        Unlicense / Public Domain (see UNLICENSE file)
@@ -63,7 +63,7 @@ app.track = function (vars, cb) {
   var i, k, val, keys;
   if (app.settings.token) { bulk.token_auth = app.settings.token; }
 
-  if (vars instanceof Array && vars[0] instanceof Object) {
+  if (vars instanceof Array && vars [0] instanceof Object) {
     // array with objects
     for (i = 0; i < vars.length; i++) {
       keys = Object.keys (vars [i]);
@@ -86,7 +86,7 @@ app.track = function (vars, cb) {
     }
     vars.rec = 1;
     vars.apiv = 1;
-    bulk.requests.push ('?'+ querystring.stringify (vars) );
+    bulk.requests.push ('?'+ querystring.stringify (vars));
   }
 
   talk(
@@ -196,7 +196,7 @@ function talk (props, cb) {
     if (typeof app.settings.timeout === 'number') {
       socket.setTimeout (parseInt (app.settings.timeout));
       socket.on ('timeout', function () {
-        callback (new Error('request timeout'));
+        callback (new Error ('request timeout'));
         request.abort ();
       });
     }
