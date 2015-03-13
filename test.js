@@ -143,7 +143,7 @@ queue.push (function () {
       method: 'Actions.getPageUrls',
       idSite: siteId,
       period: 'day',
-      date: 'today'
+      date: 'year'
     },
     function (err, data) {
       doTest (err, 'api', [
