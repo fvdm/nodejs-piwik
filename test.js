@@ -142,8 +142,8 @@ queue.push (function () {
     {
       method: 'Actions.getPageUrls',
       idSite: siteId,
-      period: 'day',
-      date: 'year'
+      period: 'year',
+      date: 'today'
     },
     function (err, data) {
       doTest (err, 'api', [
