@@ -108,7 +108,6 @@ function talk (props, cb) {
   }
 
   // build request
-  var query = '';
   if (props.query instanceof Object) {
     var keys = Object.keys (props.query);
     for (var i = 0; i < keys.length; i++) {
@@ -117,37 +116,44 @@ function talk (props, cb) {
         props.query [key] = JSON.stringify (props.query [key]);
       }
     }
-    query = '?'+ querystring.stringify (props.query);
   }
 
-  var options = {
-    url: baseURL + (props.path || ''),
-    parameters: query,
-    json: props.body || null
-  };
+  var options = {headers: {}};
 
-  httpreq [props.method.toLowerCase ()] (options, function (err, res) {
-    var data = null;
-    var error = null;
-    try {
-      data = JSON.parse (res.body);
-      if (data.result && data.result === 'error') {
-        error = new Error ('api error');
-        error.text = data.message || null;
+  if (props.query) {
+    options.parameters = props.query;
+  } else if (props.body) {
+    options.body = props.body;
+    options.headers ['Content-Type'] = 'application/json';
+    options.headers ['Content-Length'] = options.body.length;
+  }
+
+  http [props.method.toLowerCase ()] (
+    app.settings.baseURL + (props.path || ''),
+    options,
+    function (err, res) {
+      var data = null;
+      var error = null;
+      try {
+        data = JSON.parse (res.body);
+        if (data.result && data.result === 'error') {
+          error = new Error ('api error');
+          error.text = data.message || null;
+        }
       }
+      catch (e) {
+        data = res.body;
+      }
+  
+      if (res.statusCode >= 300) {
+        error = new Error ('http error');
+        error.code = res.statusCode;
+        error.body = data;
+      }
+  
+      props.callback && props.callback (error, !error && data);
     }
-    catch (e) {
-      data = res.body;
-    }
-
-    if (res.statusCode >= 300) {
-      error = new Error ('http error');
-      error.code = response.statusCode;
-      error.body = data;
-    }
-
-    props.callback && props.callback (error, !error && data);
-  });
+  );
 }
 
 // module
