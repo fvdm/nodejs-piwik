@@ -10,28 +10,17 @@ License:        Unlicense / Public Domain (see UNLICENSE file)
 
 var urltool = require ('url');
 var querystring = require ('querystring');
-var http = null;
+var http = require ('httpreq');
 
 var app = {settings: {}};
 
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
+  app.settings.baseURL = baseURL;
   var url = urltool.parse (baseURL, true);
 
-  if (url.protocol === 'https:') {
-    http = require ('https');
-    app.settings.apiprotocol = 'https:';
-    app.settings.apiport = url.port || 443;
-  } else {
-    http = require ('http');
-    app.settings.apiprotocol = 'http:';
-    app.settings.apiport = url.port || 80;
-  }
-
   // token in baseURL?
-  if (url.query && url.query.token_auth) {
-    app.settings.token = url.query.token_auth;
-  }
+  app.settings.token = url.query && url.query.token_auth || null;
 
   // override with custom token, and set timeout
   if (typeof token === 'number') {
@@ -40,9 +29,6 @@ app.setup = function (baseURL, token, timeout) {
     app.settings.token = token;
     app.settings.timeout = timeout || 5000;
   }
-
-  app.settings.apihost = url.hostname;
-  app.settings.apipath = url.pathname;
 
   return app;
 };
@@ -53,7 +39,7 @@ app.api = function (vars, cb) {
   vars.module = 'API';
   vars.format = 'JSON';
   vars.token_auth = app.settings.token;
-  talk ({method: 'GET', query: vars}, cb);
+  talk ({ method: 'GET', query: vars, callback: cb || null });
   return app;
 };
 
@@ -93,16 +79,16 @@ app.track = function (vars, cb) {
     {
       method: 'POST',
       path: 'piwik.php',
-      body: JSON.stringify (bulk)
-    },
-    function (err, data) {
-      if (err) { return cb (err); }
-      if (data.status === 'success') {
-        cb (null, data);
-      } else {
-        var error = new Error ('track failed');
-        error.data = data;
-        cb (error);
+      body: JSON.stringify (bulk),
+      callback: function (err, data) {
+        if (err && cb) { return cb (err); }
+        if (data.status === 'success') {
+          cb && cb (null, data);
+        } else {
+          var error = new Error ('track failed');
+          error.data = data;
+          cb && cb (error);
+        }
       }
     }
   );
@@ -135,85 +121,33 @@ function talk (props, cb) {
   }
 
   var options = {
-    protocol: app.settings.apiprotocol,
-    host: app.settings.apihost,
-    port: app.settings.apiport,
-    path: app.settings.apipath + (props.path || '') + query,
-    method: props.method || 'GET',
-    headers: {}
+    url: baseURL + (props.path || ''),
+    parameters: query,
+    json: props.body || null
   };
 
-  if (props.method === 'POST' && typeof props.body === 'string') {
-    options.headers ['Content-Type'] = 'application/json';
-    options.headers ['Content-Length'] = props.body.length;
-  }
-
-  var request = http.request (options);
-
-  // response
-  request.on ('response', function (response) {
-    var data = [];
-    var size = 0;
-
-    response.on ('close', function () {
-      callback (new Error ('request dropped'));
-    });
-
-    response.on ('data', function (chunk) {
-      data.push (chunk);
-      size += chunk.length;
-    });
-
-    response.on ('end', function () {
-      var error = null;
-      data = Buffer.concat (data, size) .toString () .trim ();
-
-      if (response.statusCode >= 300) {
-        error = new Error ('http error');
-        error.code = response.statusCode;
-        error.body = data;
+  httpreq [props.method.toLowerCase ()] (options, function (err, res) {
+    var data = null;
+    var error = null;
+    try {
+      data = JSON.parse (res.body);
+      if (data.result && data.result === 'error') {
+        error = new Error ('api error');
+        error.text = data.message || null;
       }
-
-      try {
-        data = JSON.parse (data);
-        if (data.result && data.result === 'error') {
-          error = new Error ('api error');
-          error.text = data.message;
-        }
-      }
-      catch (e) {
-        error = new Error ('response invalid');
-        error.code = response.statusCode;
-        error.body = data;
-      }
-
-      callback (error, !error ? data : null);
-    });
-  });
-
-  // client timeout
-  request.on ('socket', function (socket) {
-    if (typeof app.settings.timeout === 'number') {
-      socket.setTimeout (parseInt (app.settings.timeout));
-      socket.on ('timeout', function () {
-        callback (new Error ('request timeout'));
-        request.abort ();
-      });
     }
-  });
-
-  // client error
-  request.on ('error', function (error) {
-    var err = new Error ('request failed');
-    if (error.code === 'ECONNRESET') {
-      err = new Error ('request timeout');
+    catch (e) {
+      data = res.body;
     }
-    err.error = error;
-    callback (err);
-  });
 
-  // run it
-  request.end (props.body);
+    if (res.statusCode >= 300) {
+      error = new Error ('http error');
+      error.code = response.statusCode;
+      error.body = data;
+    }
+
+    props.callback && props.callback (error, !error && data);
+  });
 }
 
 // module
