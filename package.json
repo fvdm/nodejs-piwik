@@ -15,7 +15,9 @@
     "url":                 "https://github.com/fvdm/nodejs-piwik/issues"
   },
   "main":                  "piwik.js",
-  "dependencies":          {},
+  "dependencies": {
+    "httpreq":             "0.4.x"
+  },
   "devDependencies":       {},
   "optionalDependencies":  {},
   "engines": {
