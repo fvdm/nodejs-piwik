@@ -171,6 +171,18 @@ queue.push (function () {
 });
 
 
+// ! loadSpammers
+queue.push (function () {
+  piwik.loadSpammers (function (err, data) {
+    doTest (err, 'loadSpammers', [
+      ['data type', data instanceof Array],
+      ['data length', data && data.length >= 1],
+      ['item type', data && data [0] && typeof data [0] === 'string']
+    ]);
+  });
+});
+
+
 // Start the tests
 console.log ('Running tests...\n');
 queue [0] ();

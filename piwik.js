@@ -96,6 +96,25 @@ app.track = function (vars, cb) {
   return app;
 };
 
+// Spammers
+app.loadSpammers = function (cb) {
+  http.get ('https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt', function (err, res) {
+    if (err && cb) { return cb (err); }
+    var data = res.body.trim () .split ('\n');
+    var i, line;
+    for (i = 0; i < data.length; i++) {
+      line = data [i] .trim ();
+      if (line === '') {
+        delete data [i];
+      }
+    }
+    data = data.sort ();
+    cb && cb (null, data);
+  });
+
+  return app;
+};
+
 // HTTP GET
 function talk (props, cb) {
   // prevent multiple callbacks

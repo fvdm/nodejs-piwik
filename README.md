@@ -128,6 +128,30 @@ piwik.track (
 ```
 
 
+.loadSpammers ( callback )
+-------------
+
+Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
+
+[Open source list](https://github.com/piwik/referrer-spam-blacklist)
+
+**Disclaimer:** the example below is intended only for educational purposes. ;)
+
+```js
+var Kira = require ('Kira');
+var revenge = new Kira ();
+
+piwik.loadSpammers (function (err, list) {
+  if (err) { return console.log (err); }
+
+  // Destroy them all
+  list.forEach (function (target) {
+    revenge.kill ('http://'+ target, 200, 10000);
+  });
+});
+```
+
+
 Callback and Errors
 -------------------
 
