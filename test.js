@@ -55,7 +55,7 @@ function doNext () {
 // ])
 function doTest (err, label, tests) {
   if (err instanceof Error) {
-    console.error (label +': \033[1m\033[31mERROR\033[0m\n');
+    console.error ('\033[1m\033[31mERROR\033[0m - '+ label +'\n');
     console.dir (err, { depth: null, colors: true });
     console.log ();
     console.error (err.stack);
@@ -71,9 +71,9 @@ function doTest (err, label, tests) {
     }
 
     if(testErrors.length === 0) {
-      console.log (label +': \033[1m\033[32mok\033[0m');
+      console.log ('\033[1m\033[32mgood\033[0m - '+ label);
     } else {
-      console.error (label +': \033[1m\033[31mfailed\033[0m ('+ testErrors.join (', ') +')');
+      console.error ('\033[1m\033[31mFAIL\033[0m - '+ label +' ('+ testErrors.join (', ') +')');
     }
   }
 
@@ -87,12 +87,12 @@ queue.push (function () {
     {method: 'API.getPiwikVersion'},
     function (err) {
       if (err) {
-        console.log ('API access: failed ('+ err.message +')');
+        console.log ('\033[1m\033[31mFAIL\033[0m - API access ('+ err.message +')');
         console.log (err.stack);
         errors++;
         process.exit (1);
       } else {
-        console.log ('API access: \033[1m\033[32mok\033[0m');
+        console.log ('\033[1m\033[32mgood\033[0m - API access');
         doNext ();
       }
     }
