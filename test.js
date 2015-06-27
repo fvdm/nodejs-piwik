@@ -1,4 +1,13 @@
 var util = require ('util');
+/*
+Name:           piwik - test.js
+Description:    Access a Piwik API or track hits with node.js
+Author:         Franklin van de Meent (https://frankl.in)
+Source & docs:  https://github.com/fvdm/nodejs-piwik
+Feedback:       https://github.com/fvdm/nodejs-piwik/issues
+License:        Unlicense / Public Domain (see UNLICENSE file)
+                (https://github.com/fvdm/nodejs-piwik/raw/develop/UNLICENSE)
+*/
 
 // Setup
 // $ env PIWIK_URL= PIWIK_TOKEN= PIWIK_SITEID= npm test
