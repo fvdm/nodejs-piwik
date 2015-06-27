@@ -24,10 +24,7 @@
     "node":                ">=0.8.0"
   },
   "keywords":              ["piwik", "stats", "statistics", "tracking", "analytics", "api"],
-  "license": {
-    "type":                "Public Domain",
-    "url":                 "https://github.com/fvdm/nodejs-piwik/raw/master/UNLICENSE"
-  },
+  "license":               "Unlicense",
   "scripts": {
     "test":                "node test.js"
   }
