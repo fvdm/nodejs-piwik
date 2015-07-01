@@ -14,7 +14,7 @@ Example
 -------
 
 ```js
-var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+var piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
 
 // track a pageview
 piwik.track (
@@ -32,24 +32,24 @@ piwik.track (
 Installation
 ------------
 
-Stable: `npm install piwik`
+Normal: `npm install piwik`
 
-Develop: `npm install fvdm/nodejs-piwik#develop`
+Development: `npm install fvdm/nodejs-piwik#develop`
 
 
-setup ( baseURL, [token], [timeout] )
------
+.setup ( baseURL, [token], [timeout] )
+------
 
 In order to use this module you need to start with `setup()`.
 
 argument | type    | required | description
--------- | ------- | -------- | -----------
+:--------|:--------|:---------|:-----------
 baseURL  | string  | yes      | The URL to your Piwik installation. Both HTTP and HTTPS are supported.
-token    | string  | no       | Your API access token. Either set `token` or include `token_auth` in the *baseURL*.
+token    | string  | no       | Your API access token. Either set `token` or include `token_auth` in the `baseURL`.
 timeout  | integer | no       | Request wait time out in ms, default `5000` (5 seconds).
 
 ```js
-var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+var piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
 ```
 
 
@@ -60,9 +60,9 @@ Call an API method.
 
 
 argument | type     | required | description
--------- | -------- | -------- | ----------------------
-vars     | object   | yes      | see docs
-callback | function | yes      | function ( err, data )
+:--------|:---------|:---------|:----------------------
+vars     | object   | yes      | see [documentiation](http://developer.piwik.org/api-reference/reporting-api-introduction)
+callback | function | yes      | `function (err, data)`
 
 
 [Reporting API docs](http://developer.piwik.org/api-reference/reporting-api-introduction)
@@ -89,9 +89,9 @@ Track a hit.
 
 
 argument | type            | required | description
--------- | --------------- | -------- | ----------------------
-vars     | object or array | yes      | see docs
-callback | function        | yes      | function ( err, data )
+:--------|:----------------|:---------|:----------------------
+vars     | object or array | yes      | see [documentation](http://developer.piwik.org/api-reference/tracking-api)
+callback | function        | no       | `function (err, data)`
 
 
 [Tracking API docs](http://developer.piwik.org/api-reference/tracking-api)
@@ -160,15 +160,12 @@ When an error occurs `err` is an instance of `Error`.
 When all is good `err` is `null` and `data` is set.
 
 
-message          | description
----------------- | -----------------------------------------
-request failed   | Request cannot be made
-request timeout  | Request took too long to complete, see `err.error`
-request dropped  | Request closed too early
-response invalid | Server returned invalid data
-http error       | HTTP error, see `err.code` and `err.body`
-api error        | API error, see `err.text`
-track failed     | Track method failed, see `err.data`
+message          | description            | additional
+:----------------|:-----------------------|:-------------------------
+request failed   | Request cannot be made | see `err.error`
+http error       | HTTP error             | `err.code` and `err.body`
+api error        | API error              | `err.text`
+track failed     | Track method failed    | `err.data`
 
 
 ```js
@@ -217,4 +214,3 @@ Author
 Franklin van de Meent
 | [Website](https://frankl.in)
 | [Github](https://github.com/fvdm)
-
