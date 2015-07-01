@@ -153,6 +153,12 @@ function talk (props, cb) {
     function (err, res) {
       var data = null;
       var error = null;
+
+      if (err) {
+        error = new Error ('request failed');
+        error.error = err;
+      }
+
       try {
         data = JSON.parse (res.body);
         if (data.result && data.result === 'error') {
