@@ -57,8 +57,8 @@ app.track = function (vars, cb) {
         val = vars [i] [keys [k]];
         vars [i] [keys [k]] = typeof val === 'object' ? JSON.stringify (val) : val;
       }
-      vars [i].rec = 1;
-      vars [i].apiv = 1;
+      vars [i] .rec = 1;
+      vars [i] .apiv = 1;
       vars [i] = '?'+ querystring.stringify (vars [i]);
       bulk.requests.push (vars [i]);
       delete vars [i];
@@ -117,20 +117,10 @@ app.loadSpammers = function (cb) {
 
 // HTTP GET
 function talk (props, cb) {
-  // prevent multiple callbacks
-  var complete = false;
-  function callback (err, res) {
-    if (!complete) {
-      complete = true;
-      cb (err, res || null);
-    }
-  }
-
   // build request
   if (props.query instanceof Object) {
-    var keys = Object.keys (props.query);
-    for (var i = 0; i < keys.length; i++) {
-      var key = keys [i];
+    var key;
+    for (key in props.query) {
       if (typeof props.query [key] === 'object') {
         props.query [key] = JSON.stringify (props.query [key]);
       }
@@ -147,6 +137,7 @@ function talk (props, cb) {
     options.headers ['Content-Length'] = options.body.length;
   }
 
+  // send request
   http [props.method.toLowerCase ()] (
     app.settings.baseURL + (props.path || ''),
     options,
