@@ -138,7 +138,8 @@ function talk (props, cb) {
   }
 
   // send request
-  http [props.method.toLowerCase ()] (
+  var doHttp = props.method === 'POST' ? http.post : http.get;
+  doHttp (
     app.settings.baseURL + (props.path || ''),
     options,
     function (err, res) {
