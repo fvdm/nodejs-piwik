@@ -143,7 +143,7 @@ function talk (props, cb) {
     app.settings.baseURL + (props.path || ''),
     options,
     function (err, res) {
-      var data = null;
+      var data = res && res.body || null;
       var error = null;
 
       if (err) {
@@ -152,17 +152,15 @@ function talk (props, cb) {
       }
 
       try {
-        data = JSON.parse (res.body);
+        data = JSON.parse (data);
         if (data.result && data.result === 'error') {
           error = new Error ('api error');
           error.text = data.message || null;
         }
       }
-      catch (e) {
-        data = res.body;
-      }
+      catch (e) {}
   
-      if (res.statusCode >= 300) {
+      if (res && res.statusCode && res.statusCode >= 300) {
         error = new Error ('http error');
         error.code = res.statusCode;
         error.body = data;
