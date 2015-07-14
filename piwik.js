@@ -11,8 +11,11 @@ License:        Unlicense / Public Domain (see UNLICENSE file)
 var urltool = require ('url');
 var querystring = require ('querystring');
 var http = require ('httpreq');
-
 var app = {settings: {}};
+
+var defaults = {
+  timeout: 5000
+};
 
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
@@ -27,7 +30,7 @@ app.setup = function (baseURL, token, timeout) {
     app.settings.timeout = token;
   } else if (token) {
     app.settings.token = token;
-    app.settings.timeout = timeout || 5000;
+    app.settings.timeout = timeout || defaults.timeout;
   }
 
   return app;
@@ -75,42 +78,47 @@ app.track = function (vars, cb) {
     bulk.requests.push ('?'+ querystring.stringify (vars));
   }
 
-  talk(
-    {
-      method: 'POST',
-      path: 'piwik.php',
-      body: JSON.stringify (bulk),
-      callback: function (err, data) {
-        if (err && cb) { return cb (err); }
-        if (data.status === 'success') {
-          cb && cb (null, data);
-        } else {
-          var error = new Error ('track failed');
-          error.data = data;
-          cb && cb (error);
-        }
+  talk ({
+    method: 'POST',
+    path: 'piwik.php',
+    body: JSON.stringify (bulk),
+    callback: function (err, data) {
+      if (err && cb) { return cb (err); }
+      if (data.status === 'success') {
+        cb && cb (null, data);
+      } else {
+        var error = new Error ('track failed');
+        error.data = data;
+        cb && cb (error);
       }
     }
-  );
+  });
 
   return app;
 };
 
 // Spammers
 app.loadSpammers = function (cb) {
-  http.get ('https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt', function (err, res) {
-    if (err && cb) { return cb (err); }
-    var data = res.body.trim () .split ('\n');
-    var i, line;
-    for (i = 0; i < data.length; i++) {
-      line = data [i] .trim ();
-      if (line === '') {
-        delete data [i];
+  var options = {
+    timeout: parseInt (app.settings.timeout || defaults.timeout)
+  };
+  http.get (
+    'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
+    options,
+    function (err, res) {
+      if (err && cb) { return cb (err); }
+      var data = res.body.trim () .split ('\n');
+      var i, line;
+      for (i = 0; i < data.length; i++) {
+        line = data [i] .trim ();
+        if (line === '') {
+          delete data [i];
+        }
       }
+      data = data.sort ();
+      cb && cb (null, data);
     }
-    data = data.sort ();
-    cb && cb (null, data);
-  });
+  );
 
   return app;
 };
@@ -127,7 +135,10 @@ function talk (props, cb) {
     }
   }
 
-  var options = {headers: {}};
+  var options = {
+    headers: {},
+    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout)
+  };
 
   if (props.query) {
     options.parameters = props.query;
@@ -159,13 +170,13 @@ function talk (props, cb) {
         }
       }
       catch (e) {}
-  
+
       if (res && res.statusCode && res.statusCode >= 300) {
         error = new Error ('http error');
         error.code = res.statusCode;
         error.body = data;
       }
-  
+
       props.callback && props.callback (error, !error && data);
     }
   );
