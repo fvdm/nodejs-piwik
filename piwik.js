@@ -19,7 +19,7 @@ var defaults = {
 
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
-  app.settings.baseURL = baseURL;
+  app.settings.baseURL = baseURL.replace (/\/(index\.php)?([#\?].*)?$/, '/'));
   var url = urltool.parse (baseURL, true);
 
   // token in baseURL?
