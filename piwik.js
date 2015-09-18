@@ -106,10 +106,11 @@ app.loadSpammers = function (cb) {
     'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
     options,
     function (err, res) {
-      if (err && cb) { return cb (err); }
       var data = res.body.trim () .split ('\n');
       var i;
       var line;
+
+      if (err && cb) { return cb (err); }
 
       for (i = 0; i < data.length; i++) {
         line = data [i] .trim ();
