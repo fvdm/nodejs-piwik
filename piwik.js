@@ -79,6 +79,7 @@ function talk (props) {
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
   var url = urltool.parse (baseURL, true);
+
   app.settings.baseURL = url.protocol + '//' + url.host + url.pathname.replace (/\/[^\/]+$/, '/');
 
   // token in baseURL?
@@ -114,8 +115,14 @@ app.api = function (vars, cb) {
 
 // Track
 app.track = function (vars, cb) {
-  var bulk = {requests: []};
-  var i, k, val, keys;
+  var bulk = {
+    requests: []
+  };
+  var i;
+  var k;
+  var val;
+  var keys;
+
   if (app.settings.token) { bulk.token_auth = app.settings.token; }
 
   if (vars instanceof Array && vars [0] instanceof Object) {
