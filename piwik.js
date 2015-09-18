@@ -78,8 +78,8 @@ function talk (props) {
 
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
-  app.settings.baseURL = baseURL.replace (/\/(index\.php)?([#\?].*)?$/, '/');
   var url = urltool.parse (baseURL, true);
+  app.settings.baseURL = url.protocol + '//' + url.host + url.pathname.replace (/\/[^\/]+$/, '/');
 
   // token in baseURL?
   app.settings.token = url.query && url.query.token_auth || null;
@@ -101,7 +101,14 @@ app.api = function (vars, cb) {
   vars.module = 'API';
   vars.format = 'JSON';
   vars.token_auth = app.settings.token;
-  talk ({ method: 'GET', query: vars, callback: cb || null });
+
+  talk ({
+    method: 'GET',
+    path: 'index.php',
+    query: vars,
+    callback: cb || null
+  });
+
   return app;
 };
 
