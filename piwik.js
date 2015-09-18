@@ -108,7 +108,9 @@ app.loadSpammers = function (cb) {
     function (err, res) {
       if (err && cb) { return cb (err); }
       var data = res.body.trim () .split ('\n');
-      var i, line;
+      var i;
+      var line;
+
       for (i = 0; i < data.length; i++) {
         line = data [i] .trim ();
         if (line === '') {
