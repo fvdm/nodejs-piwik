@@ -16,16 +16,18 @@ var siteId = process.env.PIWIK_SITEID || null;
 var timeout = process.env.PIWIK_TIMEOUT || 5000;
 
 var piwik = require ('./') .setup (url, token, timeout);
+var errors = 0;
+var queue = [];
+var next = 0;
 
 
 // handle exits
-var errors = 0;
 process.on ('exit', function () {
   if (errors === 0) {
     console.log ('\n\u001b[1mDONE, no errors.\u001b[0m\n');
     process.exit (0);
   } else {
-    console.log ('\n\u001b[1mFAIL, '+ errors +' error'+ (errors > 1 ? 's' : '') +' occurred!\u001b[0m\n');
+    console.log ('\n\u001b[1mFAIL, ' + errors + ' error' + (errors > 1 ? 's' : '') + ' occurred!\u001b[0m\n');
     process.exit (1);
   }
 });
@@ -40,9 +42,6 @@ process.on ('uncaughtException', function (err) {
 });
 
 // Queue to prevent flooding
-var queue = [];
-var next = 0;
-
 function doNext () {
   next++;
   if (queue [next]) {
@@ -54,26 +53,28 @@ function doNext () {
 //   ['feeds', typeof feeds === 'object']
 // ])
 function doTest (err, label, tests) {
+  var testErrors = [];
+  var i;
+
   if (err instanceof Error) {
-    console.error ('\u001b[1m\u001b[31mERROR\u001b[0m - '+ label +'\n');
+    console.error ('\u001b[1m\u001b[31mERROR\u001b[0m - ' + label + '\n');
     console.dir (err, { depth: null, colors: true });
     console.log ();
     console.error (err.stack);
     console.log ();
     errors++;
   } else {
-    var testErrors = [];
-    for (var i = 0; i < tests.length; i++) {
+    for (i = 0; i < tests.length; i++) {
       if (tests [i] [1] !== true) {
         testErrors.push (tests [i] [0]);
         errors++;
       }
     }
 
-    if(testErrors.length === 0) {
-      console.log ('\u001b[1m\u001b[32mgood\u001b[0m - '+ label);
+    if (testErrors.length === 0) {
+      console.log ('\u001b[1m\u001b[32mgood\u001b[0m - ' + label);
     } else {
-      console.error ('\u001b[1m\u001b[31mFAIL\u001b[0m - '+ label +' ('+ testErrors.join (', ') +')');
+      console.error ('\u001b[1m\u001b[31mFAIL\u001b[0m - ' + label + ' (' + testErrors.join (', ') + ')');
     }
   }
 
@@ -84,10 +85,12 @@ function doTest (err, label, tests) {
 // ! API access
 queue.push (function () {
   piwik.api (
-    {method: 'API.getPiwikVersion'},
+    {
+      method: 'API.getPiwikVersion'
+    },
     function (err) {
       if (err) {
-        console.log ('\u001b[1m\u001b[31mFAIL\u001b[0m - API access ('+ err.message +')');
+        console.log ('\u001b[1m\u001b[31mFAIL\u001b[0m - API access (' + err.message + ')');
         console.log (err.stack);
         errors++;
         process.exit (1);
@@ -103,8 +106,10 @@ queue.push (function () {
 // ! API error
 queue.push (function () {
   piwik.api (
-    {method: 'invalid method name'},
-    function (err, data) {
+    {
+      method: 'invalid method name'
+    },
+    function (err) {
       doTest (null, 'API error', [
         ['type', err && err instanceof Error],
         ['message', err && err.message === 'api error']
@@ -120,7 +125,9 @@ queue.push (function () {
     {
       idsite: siteId,
       url: 'https://www.npmjs.com/package/piwik',
-      cvar: {'1': ['node test', process.version]}
+      cvar: {
+        1: ['node test', process.version]
+      }
     },
     function (err, data) {
       doTest (err, 'track one', [
@@ -139,12 +146,16 @@ queue.push (function () {
       {
         idsite: siteId,
         url: 'https://www.npmjs.com/package/piwik',
-        cvar: {'1': ['node test', process.version]}
+        cvar: {
+          1: ['node test', process.version]
+        }
       },
       {
         idsite: siteId,
         url: 'https://github.com/fvdm/nodejs-piwik',
-        cvar: {'1': ['node test', process.version]}
+        cvar: {
+          1: ['node test', process.version]
+        }
       }
     ],
     function (err, data) {
