@@ -125,6 +125,13 @@ app.loadSpammers = function (cb) {
 
 // HTTP GET
 function talk (props, cb) {
+  var options = {
+    url: app.settings.baseURL + (props.path || ''),
+    method: props.method || 'GET',
+    headers: {},
+    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
+  };
+
   // build request
   if (props.query instanceof Object) {
     var key;
@@ -134,13 +141,6 @@ function talk (props, cb) {
       }
     }
   }
-
-  var options = {
-    url: app.settings.baseURL + (props.path || ''),
-    method: props.method || 'GET',
-    headers: {},
-    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
-  };
 
   if (props.query) {
     options.parameters = props.query;
