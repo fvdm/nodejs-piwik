@@ -83,11 +83,13 @@ app.track = function (vars, cb) {
     path: 'piwik.php',
     body: JSON.stringify (bulk),
     callback: function (err, data) {
+      var error = null;
+
       if (err && cb) { return cb (err); }
       if (data.status === 'success') {
         cb && cb (null, data);
       } else {
-        var error = new Error ('track failed');
+        error = new Error ('track failed');
         error.data = data;
         cb && cb (error);
       }
