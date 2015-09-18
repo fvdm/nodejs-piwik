@@ -100,7 +100,7 @@ app.track = function (vars, cb) {
 // Spammers
 app.loadSpammers = function (cb) {
   var options = {
-    timeout: parseInt (app.settings.timeout || defaults.timeout)
+    timeout: parseInt (app.settings.timeout || defaults.timeout, 10)
   };
   http.get (
     'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
