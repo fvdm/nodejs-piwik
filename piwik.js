@@ -124,7 +124,7 @@ app.loadSpammers = function (cb) {
 };
 
 // HTTP GET
-function talk (props, cb) {
+function talk (props) {
   var options = {
     url: app.settings.baseURL + (props.path || ''),
     method: props.method || 'GET',
