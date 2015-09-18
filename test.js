@@ -22,10 +22,10 @@ var piwik = require ('./') .setup (url, token, timeout);
 var errors = 0;
 process.on ('exit', function () {
   if (errors === 0) {
-    console.log ('\n\033[1mDONE, no errors.\033[0m\n');
+    console.log ('\n\u001b[1mDONE, no errors.\u001b[0m\n');
     process.exit (0);
   } else {
-    console.log ('\n\033[1mFAIL, '+ errors +' error'+ (errors > 1 ? 's' : '') +' occurred!\033[0m\n');
+    console.log ('\n\u001b[1mFAIL, '+ errors +' error'+ (errors > 1 ? 's' : '') +' occurred!\u001b[0m\n');
     process.exit (1);
   }
 });
@@ -55,7 +55,7 @@ function doNext () {
 // ])
 function doTest (err, label, tests) {
   if (err instanceof Error) {
-    console.error ('\033[1m\033[31mERROR\033[0m - '+ label +'\n');
+    console.error ('\u001b[1m\u001b[31mERROR\u001b[0m - '+ label +'\n');
     console.dir (err, { depth: null, colors: true });
     console.log ();
     console.error (err.stack);
@@ -71,9 +71,9 @@ function doTest (err, label, tests) {
     }
 
     if(testErrors.length === 0) {
-      console.log ('\033[1m\033[32mgood\033[0m - '+ label);
+      console.log ('\u001b[1m\u001b[32mgood\u001b[0m - '+ label);
     } else {
-      console.error ('\033[1m\033[31mFAIL\033[0m - '+ label +' ('+ testErrors.join (', ') +')');
+      console.error ('\u001b[1m\u001b[31mFAIL\u001b[0m - '+ label +' ('+ testErrors.join (', ') +')');
     }
   }
 
@@ -87,12 +87,12 @@ queue.push (function () {
     {method: 'API.getPiwikVersion'},
     function (err) {
       if (err) {
-        console.log ('\033[1m\033[31mFAIL\033[0m - API access ('+ err.message +')');
+        console.log ('\u001b[1m\u001b[31mFAIL\u001b[0m - API access ('+ err.message +')');
         console.log (err.stack);
         errors++;
         process.exit (1);
       } else {
-        console.log ('\033[1m\033[32mgood\033[0m - API access');
+        console.log ('\u001b[1m\u001b[32mgood\u001b[0m - API access');
         doNext ();
       }
     }
