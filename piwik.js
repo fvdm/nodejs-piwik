@@ -121,7 +121,7 @@ app.track = function (vars, cb) {
       }
       vars [i] .rec = 1;
       vars [i] .apiv = 1;
-      vars [i] = '?'+ querystring.stringify (vars [i]);
+      vars [i] = '?' + querystring.stringify (vars [i]);
       bulk.requests.push (vars [i]);
       delete vars [i];
     }
@@ -134,7 +134,7 @@ app.track = function (vars, cb) {
     }
     vars.rec = 1;
     vars.apiv = 1;
-    bulk.requests.push ('?'+ querystring.stringify (vars));
+    bulk.requests.push ('?' + querystring.stringify (vars));
   }
 
   talk ({
