@@ -168,8 +168,10 @@ function talk (props, cb) {
           error = new Error ('api error');
           error.text = data.message || null;
         }
+      } catch (e) {
+        error = new Error ('response invalid');
+        error.error = e;
       }
-      catch (e) {}
 
       if (res && res.statusCode && res.statusCode >= 300) {
         error = new Error ('http error');
