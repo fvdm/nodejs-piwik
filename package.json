@@ -6,7 +6,7 @@
   },
   "name":                  "piwik",
   "description":           "Access a Piwik API from node.js",
-  "version":               "1.0.1",
+  "version":               "1.0.2",
   "repository": {
     "type":                "git",
     "url":                 "git://github.com/fvdm/nodejs-piwik.git"
