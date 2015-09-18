@@ -23,7 +23,14 @@
   "engines": {
     "node":                ">=0.8.0"
   },
-  "keywords":              ["piwik", "stats", "statistics", "tracking", "analytics", "api"],
+  "keywords": [
+    "analytics",
+    "api",
+    "piwik",
+    "statistics",
+    "stats",
+    "tracking"
+  ],
   "license":               "Unlicense",
   "scripts": {
     "test":                "node test.js"
