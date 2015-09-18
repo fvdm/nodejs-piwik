@@ -11,7 +11,9 @@ License:        Unlicense / Public Domain (see UNLICENSE file)
 var urltool = require ('url');
 var querystring = require ('querystring');
 var http = require ('httpreq');
-var app = {settings: {}};
+var app = {
+  settings: {}
+};
 
 var defaults = {
   timeout: 5000
@@ -20,6 +22,7 @@ var defaults = {
 
 // HTTP GET
 function talk (props) {
+  var key;
   var options = {
     url: app.settings.baseURL + (props.path || ''),
     method: props.method || 'GET',
@@ -29,7 +32,6 @@ function talk (props) {
 
   // build request
   if (props.query instanceof Object) {
-    var key;
     for (key in props.query) {
       if (typeof props.query [key] === 'object') {
         props.query [key] = JSON.stringify (props.query [key]);
