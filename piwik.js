@@ -17,6 +17,65 @@ var defaults = {
   timeout: 5000
 };
 
+
+// HTTP GET
+function talk (props) {
+  var options = {
+    url: app.settings.baseURL + (props.path || ''),
+    method: props.method || 'GET',
+    headers: {},
+    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
+  };
+
+  // build request
+  if (props.query instanceof Object) {
+    var key;
+    for (key in props.query) {
+      if (typeof props.query [key] === 'object') {
+        props.query [key] = JSON.stringify (props.query [key]);
+      }
+    }
+  }
+
+  if (props.query) {
+    options.parameters = props.query;
+  } else if (props.body) {
+    options.body = props.body;
+    options.headers ['Content-Type'] = 'application/json';
+    options.headers ['Content-Length'] = options.body.length;
+  }
+
+  // send request
+  http.doRequest (options, function (err, res) {
+    var data = res && res.body || null;
+    var error = null;
+
+    if (err) {
+      error = new Error ('request failed');
+      error.error = err;
+    }
+
+    try {
+      data = JSON.parse (data);
+      if (data.result && data.result === 'error') {
+        error = new Error ('api error');
+        error.text = data.message || null;
+      }
+    } catch (e) {
+      error = new Error ('response invalid');
+      error.error = e;
+    }
+
+    if (res && res.statusCode && res.statusCode >= 300) {
+      error = new Error ('http error');
+      error.code = res.statusCode;
+      error.body = data;
+    }
+
+    props.callback && props.callback (error, !error && data);
+  });
+}
+
 // SETUP basics
 app.setup = function (baseURL, token, timeout) {
   app.settings.baseURL = baseURL.replace (/\/(index\.php)?([#\?].*)?$/, '/');
@@ -86,6 +145,7 @@ app.track = function (vars, cb) {
       var error = null;
 
       if (err && cb) { return cb (err); }
+
       if (data.status === 'success') {
         cb && cb (null, data);
       } else {
@@ -104,6 +164,7 @@ app.loadSpammers = function (cb) {
   var options = {
     timeout: parseInt (app.settings.timeout || defaults.timeout, 10)
   };
+
   http.get (
     'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
     options,
@@ -127,64 +188,6 @@ app.loadSpammers = function (cb) {
 
   return app;
 };
-
-// HTTP GET
-function talk (props) {
-  var options = {
-    url: app.settings.baseURL + (props.path || ''),
-    method: props.method || 'GET',
-    headers: {},
-    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
-  };
-
-  // build request
-  if (props.query instanceof Object) {
-    var key;
-    for (key in props.query) {
-      if (typeof props.query [key] === 'object') {
-        props.query [key] = JSON.stringify (props.query [key]);
-      }
-    }
-  }
-
-  if (props.query) {
-    options.parameters = props.query;
-  } else if (props.body) {
-    options.body = props.body;
-    options.headers ['Content-Type'] = 'application/json';
-    options.headers ['Content-Length'] = options.body.length;
-  }
-
-  // send request
-  http.doRequest (options, function (err, res) {
-    var data = res && res.body || null;
-    var error = null;
-
-    if (err) {
-      error = new Error ('request failed');
-      error.error = err;
-    }
-
-    try {
-      data = JSON.parse (data);
-      if (data.result && data.result === 'error') {
-        error = new Error ('api error');
-        error.text = data.message || null;
-      }
-    } catch (e) {
-      error = new Error ('response invalid');
-      error.error = e;
-    }
-
-    if (res && res.statusCode && res.statusCode >= 300) {
-      error = new Error ('http error');
-      error.code = res.statusCode;
-      error.body = data;
-    }
-
-    props.callback && props.callback (error, !error && data);
-  });
-}
 
 // module
 module.exports = app;
