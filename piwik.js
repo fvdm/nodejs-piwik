@@ -139,7 +139,7 @@ function talk (props, cb) {
     url: app.settings.baseURL + (props.path || ''),
     method: props.method || 'GET',
     headers: {},
-    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout)
+    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
   };
 
   if (props.query) {
