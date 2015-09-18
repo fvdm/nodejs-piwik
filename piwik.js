@@ -136,6 +136,8 @@ function talk (props, cb) {
   }
 
   var options = {
+    url: app.settings.baseURL + (props.path || ''),
+    method: props.method || 'GET',
     headers: {},
     timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout)
   };
@@ -149,39 +151,34 @@ function talk (props, cb) {
   }
 
   // send request
-  var doHttp = props.method === 'POST' ? http.post : http.get;
-  doHttp (
-    app.settings.baseURL + (props.path || ''),
-    options,
-    function (err, res) {
-      var data = res && res.body || null;
-      var error = null;
+  http.doRequest (options, function (err, res) {
+    var data = res && res.body || null;
+    var error = null;
 
-      if (err) {
-        error = new Error ('request failed');
-        error.error = err;
-      }
-
-      try {
-        data = JSON.parse (data);
-        if (data.result && data.result === 'error') {
-          error = new Error ('api error');
-          error.text = data.message || null;
-        }
-      } catch (e) {
-        error = new Error ('response invalid');
-        error.error = e;
-      }
-
-      if (res && res.statusCode && res.statusCode >= 300) {
-        error = new Error ('http error');
-        error.code = res.statusCode;
-        error.body = data;
-      }
-
-      props.callback && props.callback (error, !error && data);
+    if (err) {
+      error = new Error ('request failed');
+      error.error = err;
     }
-  );
+
+    try {
+      data = JSON.parse (data);
+      if (data.result && data.result === 'error') {
+        error = new Error ('api error');
+        error.text = data.message || null;
+      }
+    } catch (e) {
+      error = new Error ('response invalid');
+      error.error = e;
+    }
+
+    if (res && res.statusCode && res.statusCode >= 300) {
+      error = new Error ('http error');
+      error.code = res.statusCode;
+      error.body = data;
+    }
+
+    props.callback && props.callback (error, !error && data);
+  });
 }
 
 // module
