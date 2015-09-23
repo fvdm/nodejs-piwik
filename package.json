@@ -5,7 +5,7 @@
     "url":                 "http://frankl.in"
   },
   "name":                  "piwik",
-  "description":           "Access a Piwik API from node.js",
+  "description":           "Track hits, access a Piwik API, or retrieve the referrer spammers list.",
   "version":               "1.0.3",
   "repository": {
     "type":                "git",
