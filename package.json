@@ -1,27 +1,27 @@
 {
   "author": {
-    "name":                "Franklin van de Meent",
-    "email":               "fr@nkl.in",
-    "url":                 "http://frankl.in"
+    "name": "Franklin van de Meent",
+    "email": "fr@nkl.in",
+    "url": "https://frankl.in"
   },
-  "name":                  "piwik",
-  "description":           "Track hits, access a Piwik API, or retrieve the referrer spammers list.",
-  "version":               "1.0.4",
+  "name": "piwik",
+  "description": "Track hits, access your Piwik API, or retrieve the referrer spammers list.",
+  "version": "1.0.4",
   "repository": {
-    "type":                "git",
-    "url":                 "git://github.com/fvdm/nodejs-piwik.git"
+    "type": "git",
+    "url": "git://github.com/fvdm/nodejs-piwik.git"
   },
   "bugs": {
-    "url":                 "https://github.com/fvdm/nodejs-piwik/issues"
+    "url": "https://github.com/fvdm/nodejs-piwik/issues"
   },
-  "main":                  "piwik.js",
+  "main": "piwik.js",
   "dependencies": {
-    "httpreq":             "0.4.x"
+    "httpreq": "0.4.x"
   },
-  "devDependencies":       {},
-  "optionalDependencies":  {},
+  "devDependencies": {},
+  "optionalDependencies": {},
   "engines": {
-    "node":                ">=0.8.0"
+    "node": ">=0.8.0"
   },
   "keywords": [
     "analytics",
@@ -31,8 +31,8 @@
     "stats",
     "tracking"
   ],
-  "license":               "Unlicense",
+  "license": "Unlicense",
   "scripts": {
-    "test":                "node test.js"
+    "test": "node test.js"
   }
 }
