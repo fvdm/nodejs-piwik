@@ -18,7 +18,9 @@
   "dependencies": {
     "httpreq": "0.4.x"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "2.x"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": ">=0.8.0"
@@ -33,6 +35,6 @@
   ],
   "license": "Unlicense",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js ; eslint ."
   }
 }
