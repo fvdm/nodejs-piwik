@@ -14,7 +14,7 @@ Example
 -------
 
 ```js
-var piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
+var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
 
 // track a pageview
 piwik.track (
