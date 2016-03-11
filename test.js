@@ -8,6 +8,18 @@ License:        Unlicense / Public Domain (see UNLICENSE file)
                 (https://github.com/fvdm/nodejs-piwik/raw/develop/UNLICENSE)
 */
 
+var path = require ('path');
+var dir = path.dirname (module.filename);
+
+var pkg = require (path.join (dir, 'package.json'));
+var app = require (path.join (dir));
+
+var errors = 0;
+var warnings = 0;
+var queue = [];
+var next = 0;
+
+
 // Setup
 // $ env PIWIK_URL= PIWIK_TOKEN= PIWIK_SITEID= npm test
 var url = process.env.PIWIK_URL || null;
@@ -16,27 +28,75 @@ var siteId = process.env.PIWIK_SITEID || null;
 var timeout = process.env.PIWIK_TIMEOUT || 5000;
 
 var piwik = require ('./') .setup (url, token, timeout);
-var errors = 0;
-var queue = [];
-var next = 0;
 
+
+// Color string
+function colorStr (color, str) {
+  var colors = {
+    red: '\u001b[31m',
+    green: '\u001b[32m',
+    yellow: '\u001b[33m',
+    blue: '\u001b[34m',
+    magenta: '\u001b[35m',
+    cyan: '\u001b[36m',
+    gray: '\u001b[37m',
+    bold: '\u001b[1m',
+    plain: '\u001b[0m'
+  };
+
+  return colors [color] + str + colors.plain;
+}
+
+function log (type, str) {
+  if (!str) {
+    str = type;
+    type = 'plain';
+  }
+
+  switch (type) {
+    case 'error': console.log (colorStr ('red', colorStr ('bold', 'ERR     ')) + str + '\n'); break;
+    case 'fail': console.log (colorStr ('red', 'FAIL') + '    ' + str); break;
+    case 'good': console.log (colorStr ('green', 'good') + '    ' + str); break;
+    case 'warn': console.log (colorStr ('yellow', 'warn') + '    ' + str); break;
+    case 'info': console.log (colorStr ('cyan', 'info') + '    ' + str); break;
+    case 'note': console.log (colorStr ('bold', str)); break;
+    case 'plain': default: console.log (str); break;
+  }
+}
+
+function typeStr (str) {
+  if (typeof str === 'string') {
+    str = '"' + str + '"';
+  } else if (str instanceof Object) {
+    str = 'Object';
+  } else if (str instanceof Array) {
+    str = 'Array';
+  } else if (str instanceof Error) {
+    str = 'Error';
+  }
+
+  return colorStr ('magenta', str);
+}
 
 // handle exits
 process.on ('exit', function () {
-  if (errors === 0) {
-    console.log ('\n\u001b[1mDONE, no errors.\u001b[0m\n');
-    process.exit (0);
-  } else {
-    console.log ('\n\u001b[1mFAIL, ' + errors + ' error' + (errors > 1 ? 's' : '') + ' occurred!\u001b[0m\n');
+  console.log ();
+  log ('info', errors + ' errors');
+  log ('info', warnings + ' warnings');
+  console.log ();
+
+  if (errors) {
     process.exit (1);
+  } else {
+    process.exit (0);
   }
 });
 
 // prevent errors from killing the process
 process.on ('uncaughtException', function (err) {
+  console.log (err);
   console.log ();
-  console.error (err.stack);
-  console.trace ();
+  console.log (err.stack);
   console.log ();
   errors++;
 });
@@ -45,36 +105,72 @@ process.on ('uncaughtException', function (err) {
 function doNext () {
   next++;
   if (queue [next]) {
+    console.log ();
     queue [next] ();
   }
 }
 
-// doTest( passErr, 'methods', [
-//   ['feeds', typeof feeds === 'object']
-// ])
+
+/**
+ * doTest checks for error
+ * else runs specified tests
+ *
+ * @param {Error} err
+ * @param {String} label
+ * @param {Array} tests
+ *
+ * doTest(err, 'label text', [
+ *   ['fail', 'feeds', typeof feeds, 'object'],
+ *   ['warn', 'music', music instanceof Array, true],
+ *   ['info', 'tracks', music.length]
+ * ]);
+ */
+
 function doTest (err, label, tests) {
-  var testErrors = [];
+  var level = 'good';
+  var test;
   var i;
 
   if (err instanceof Error) {
-    console.error ('\u001b[1m\u001b[31mERROR\u001b[0m - ' + label + '\n');
+    log ('error', label);
     console.dir (err, { depth: null, colors: true });
     console.log ();
-    console.error (err.stack);
+    console.log (err.stack);
     console.log ();
     errors++;
-  } else {
-    for (i = 0; i < tests.length; i++) {
-      if (tests [i] [1] !== true) {
-        testErrors.push (tests [i] [0]);
-        errors++;
-      }
+
+    doNext ();
+    return;
+  }
+
+  log ('note', colorStr ('blue', '(' + (next + 1) + '/' + queue.length + ') ') + label);
+
+  for (i = 0; i < tests.length; i++) {
+    test = {
+      level: tests [i] [0],
+      label: tests [i] [1],
+      result: tests [i] [2],
+      expect: tests [i] [3]
+    };
+
+    if (test.result === test.expect) {
+      log ('good', colorStr ('blue', test.label) + ': ' + typeStr (test.result) + ' is exactly ' + typeStr (test.expect));
     }
 
-    if (testErrors.length === 0) {
-      console.log ('\u001b[1m\u001b[32mgood\u001b[0m - ' + label);
-    } else {
-      console.error ('\u001b[1m\u001b[31mFAIL\u001b[0m - ' + label + ' (' + testErrors.join (', ') + ')');
+    if (test.level === 'fail' && test.result !== test.expect) {
+      errors++;
+      level = 'fail';
+      log ('fail', colorStr ('blue', test.label) + ': ' + typeStr (test.result) + ' is not ' + typeStr (test.expect));
+    }
+
+    if (test.level === 'warn' && test.result !== test.expect) {
+      warnings++;
+      level = level !== 'fail' && 'warn';
+      log ('warn', colorStr ('blue', test.label) + ': ' + typeStr (test.result) + ' is not ' + typeStr (test.expect));
+    }
+
+    if (test.level === 'info') {
+      log ('info', colorStr ('blue', test.label) + ': ' + typeStr (test.result));
     }
   }
 
@@ -111,8 +207,8 @@ queue.push (function () {
     },
     function (err) {
       doTest (null, 'API error', [
-        ['type', err && err instanceof Error],
-        ['message', err && err.message === 'api error']
+        ['fail', 'type', err && err instanceof Error, true],
+        ['fail', 'message', err && err.message, 'api error']
       ]);
     }
   );
@@ -131,9 +227,9 @@ queue.push (function () {
     },
     function (err, data) {
       doTest (err, 'track one', [
-        ['data type', typeof data === 'object'],
-        ['data.status', data && data.status === 'success'],
-        ['data.tracked', data && data.tracked === 1]
+        ['fail', 'data type', typeof data, 'object'],
+        ['fail', 'data.status', data && data.status, 'success'],
+        ['fail', 'data.tracked', data && data.tracked, 1]
       ]);
     }
   );
@@ -160,9 +256,9 @@ queue.push (function () {
     ],
     function (err, data) {
       doTest (err, 'track multi', [
-        ['data type', typeof data === 'object'],
-        ['data.status', data && data.status === 'success'],
-        ['data.tracked', data && data.tracked === 2]
+        ['fail', 'data type', typeof data, 'object'],
+        ['fail', 'data.status', data && data.status, 'success'],
+        ['fail', 'data.tracked', data && data.tracked, 2]
       ]);
     }
   );
@@ -180,10 +276,10 @@ queue.push (function () {
     },
     function (err, data) {
       doTest (err, 'api', [
-        ['data type', data instanceof Array],
-        ['data length', data && data.length >= 1],
-        ['item type', data && data [0] instanceof Object],
-        ['item label', data && data [0] && typeof data [0] .label === 'string']
+        ['fail', 'data type', data instanceof Array, true],
+        ['fail', 'data length', data && data.length >= 1, true],
+        ['fail', 'item type', data && data [0] instanceof Object, true],
+        ['fail', 'item label', data && data [0] && typeof data [0] .label, 'string']
       ]);
     }
   );
@@ -194,14 +290,18 @@ queue.push (function () {
 queue.push (function () {
   piwik.loadSpammers (function (err, data) {
     doTest (err, 'loadSpammers', [
-      ['data type', data instanceof Array],
-      ['data length', data && data.length >= 1],
-      ['item type', data && data [0] && typeof data [0] === 'string']
+      ['fail', 'data type', data instanceof Array, true],
+      ['fail', 'data length', data && data.length >= 1, true],
+      ['fail', 'item type', data && data [0] && typeof data [0], 'string']
     ]);
   });
 });
 
 
 // Start the tests
-console.log ('Running tests...\n');
+log ('note', 'Running tests...\n');
+log ('note', 'Node.js:  ' + process.versions.node);
+log ('note', 'Module:   ' + pkg.version);
+console.log ();
+
 queue [0] ();
