@@ -186,7 +186,7 @@ queue.push (function () {
     ['fail', '.setup return', piwik instanceof Object, true],
     ['fail', '.api', app && app.api instanceof Function, true],
     ['fail', '.track', app && app.track instanceof Function, true],
-    ['fail', '.loadSpammers', app && app.loadSpammers instanceof Function, true],
+    ['fail', '.loadSpammers', app && app.loadSpammers instanceof Function, true]
   ]);
 });
 
