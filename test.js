@@ -27,7 +27,7 @@ var token = process.env.PIWIK_TOKEN || null;
 var siteId = process.env.PIWIK_SITEID || null;
 var timeout = process.env.PIWIK_TIMEOUT || 5000;
 
-var piwik = require ('./') .setup (url, token, timeout);
+var piwik = app.setup (url, token, timeout);
 
 
 // Color string
@@ -178,6 +178,19 @@ function doTest (err, label, tests) {
 }
 
 
+// Module
+queue.push (function () {
+  doTest (null, 'Module', [
+    ['fail', 'exports', app instanceof Object, true],
+    ['fail', '.setup function', app && app.setup instanceof Function, true],
+    ['fail', '.setup return', piwik instanceof Object, true],
+    ['fail', '.api', app && app.api instanceof Function, true],
+    ['fail', '.track', app && app.track instanceof Function, true],
+    ['fail', '.loadSpammers', app && app.loadSpammers instanceof Function, true],
+  ]);
+});
+
+
 // ! API access
 queue.push (function () {
   piwik.api (
@@ -185,14 +198,12 @@ queue.push (function () {
       method: 'API.getPiwikVersion'
     },
     function (err) {
+      doTest (err, 'API access', [
+        ['fail', 'API access', !err, true]
+      ]);
+
       if (err) {
-        console.log ('\u001b[1m\u001b[31mFAIL\u001b[0m - API access (' + err.message + ')');
-        console.log (err.stack);
-        errors++;
         process.exit (1);
-      } else {
-        console.log ('\u001b[1m\u001b[32mgood\u001b[0m - API access');
-        doNext ();
       }
     }
   );
