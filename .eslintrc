@@ -129,7 +129,7 @@
     "operator-assignment": [2, "always"],
     "operator-linebreak": [2, "none", {
       "overrides": {
-        "+": "after"
+        "+": "before"
       }
     }],
     "padded-blocks": [2, "never"],
