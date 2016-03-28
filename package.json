@@ -36,6 +36,6 @@
   ],
   "license": "Unlicense",
   "scripts": {
-    "test": "node test.js ; eslint ."
+    "test": "eslint . && node test.js"
   }
 }
