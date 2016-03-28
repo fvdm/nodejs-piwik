@@ -42,7 +42,7 @@ dotest.add ('API error', function () {
     function (err) {
       dotest.test ()
         .isError ('fail', 'err', err)
-        .isExactly ('fail', 'err.message', err && err.message)
+        .isExactly ('fail', 'err.message', err && err.message, 'api error')
         .done ();
     }
   );
