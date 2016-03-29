@@ -12,12 +12,11 @@ var urltool = require ('url');
 var querystring = require ('querystring');
 var http = require ('httpreq');
 var app = {
-  settings: {}
+  settings: {
+    timeout: 5000
+  }
 };
 
-var defaults = {
-  timeout: 5000
-};
 
 
 // HTTP GET
@@ -27,7 +26,7 @@ function talk (props) {
     url: app.settings.baseURL + (props.path || ''),
     method: props.method || 'GET',
     headers: {},
-    timeout: parseInt (props.timeout || app.settings.timeout || defaults.timeout, 10)
+    timeout: props.timeout || app.settings.timeout
   };
 
   // build request
@@ -89,12 +88,12 @@ app.setup = function (baseURL, token, timeout) {
 
   // override with custom token, and set timeout
   if (typeof token === 'number') {
-    app.settings.timeout = token;
+    timeout = token;
   } else if (token) {
     app.settings.token = token;
-    app.settings.timeout = timeout || defaults.timeout;
   }
 
+  app.settings.timeout = timeout || app.settings.timeout;
   return app;
 };
 
@@ -178,7 +177,7 @@ app.track = function (vars, cb) {
 // Spammers
 app.loadSpammers = function (cb) {
   var options = {
-    timeout: parseInt (app.settings.timeout || defaults.timeout, 10)
+    timeout: app.settings.timeout
   };
 
   http.get (
