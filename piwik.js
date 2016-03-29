@@ -17,7 +17,34 @@ var app = {
   }
 };
 
+function processResponse (err, res, callback) {
+  var data = res && res.body || null;
+  var error = null;
 
+  if (err) {
+    error = new Error ('request failed');
+    error.error = err;
+  }
+
+  try {
+    data = JSON.parse (data);
+    if (data.result && data.result === 'error') {
+      error = new Error ('api error');
+      error.text = data.message || null;
+    }
+  } catch (e) {
+    error = new Error ('response invalid');
+    error.error = e;
+  }
+
+  if (res && res.statusCode && res.statusCode >= 300) {
+    error = new Error ('http error');
+    error.code = res.statusCode;
+    error.body = data;
+  }
+
+  callback && callback (error, !error && data);
+}
 
 // HTTP GET
 function talk (props) {
@@ -48,32 +75,7 @@ function talk (props) {
 
   // send request
   http.doRequest (options, function (err, res) {
-    var data = res && res.body || null;
-    var error = null;
-
-    if (err) {
-      error = new Error ('request failed');
-      error.error = err;
-    }
-
-    try {
-      data = JSON.parse (data);
-      if (data.result && data.result === 'error') {
-        error = new Error ('api error');
-        error.text = data.message || null;
-      }
-    } catch (e) {
-      error = new Error ('response invalid');
-      error.error = e;
-    }
-
-    if (res && res.statusCode && res.statusCode >= 300) {
-      error = new Error ('http error');
-      error.code = res.statusCode;
-      error.body = data;
-    }
-
-    props.callback && props.callback (error, !error && data);
+    processResponse (err, res, props.callback);
   });
 }
 
