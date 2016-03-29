@@ -17,6 +17,17 @@ var app = {
   }
 };
 
+
+/**
+ * Process talk() response
+ *
+ * @callback callback
+ * @param err {Error} - Response error
+ * @param res {object} - Response resource
+ * @param [callback] {function} - Optional `function (err, res) {}`
+ * @returns {void}
+ */
+
 function processResponse (err, res, callback) {
   var data = res && res.body || null;
   var error = null;
@@ -46,7 +57,21 @@ function processResponse (err, res, callback) {
   callback && callback (error, !error && data);
 }
 
-// HTTP GET
+
+/**
+ * API communication
+ *
+ * @callback props.callback
+ * @param props {object} - Response resource
+ * @param [props.method] {string=GET} - HTTP method: GET, POST
+ * @param [props.path] {string=/} - Request path after hostname
+ * @param [props.timeout] {number-5000} - Request time out in ms
+ * @param [props.query] {object} - Data fields to send along
+ * @param [props.body] {string} - POST JSON encoded body
+ * @param [props.callback] {function} - Optional `function (err, res) {}`
+ * @returns {void}
+ */
+
 function talk (props) {
   var key;
   var options = {
@@ -79,7 +104,16 @@ function talk (props) {
   });
 }
 
-// SETUP basics
+
+/**
+ * Setup basics
+ *
+ * @param baseURL {string} - Piwik URL
+ * @param [token] {string=baseURL token_auth} - Piwik API token
+ * @param [timeout] {number} - Request time out in ms
+ * @returns app {object}
+ */
+
 app.setup = function (baseURL, token, timeout) {
   var url = urltool.parse (baseURL, true);
 
@@ -99,7 +133,17 @@ app.setup = function (baseURL, token, timeout) {
   return app;
 };
 
-// API call
+
+/**
+ * API call
+ *
+ * @callback callback
+ * @callback cb
+ * @param [vars] {object} - Parameters
+ * @param [cb] {function} - `function (err, res) {}`
+ * @returns app {object}
+ */
+
 app.api = function (vars, cb) {
   vars = typeof vars === 'object' ? vars : {};
   vars.module = 'API';
@@ -116,7 +160,16 @@ app.api = function (vars, cb) {
   return app;
 };
 
-// Track
+
+/**
+ * Track one or multiple hits
+ *
+ * @callback cb
+ * @param vars {object|array} - Parameters or array with parameters objects
+ * @param [cb] {function} - Optional `function (err, res) {}`
+ * @returns app {object}
+ */
+
 app.track = function (vars, cb) {
   var bulk = {
     requests: []
@@ -176,7 +229,15 @@ app.track = function (vars, cb) {
   return app;
 };
 
-// Spammers
+
+/**
+ * Get spammers list from Github repo
+ *
+ * @callback cb
+ * @param cb {function}
+ * @returns app {object}
+ */
+
 app.loadSpammers = function (cb) {
   var options = {
     timeout: app.settings.timeout
