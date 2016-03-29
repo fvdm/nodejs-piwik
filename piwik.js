@@ -223,7 +223,8 @@ app.track = function (vars, cb) {
       var error = null;
 
       if (err && cb) {
-        return cb (err);
+        cb (err);
+        return;
       }
 
       if (data.status === 'success') {
@@ -262,7 +263,8 @@ app.loadSpammers = function (cb) {
       var line;
 
       if (err && cb) {
-        return cb (err);
+        cb (err);
+        return;
       }
 
       for (i = 0; i < data.length; i++) {
