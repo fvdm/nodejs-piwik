@@ -114,7 +114,7 @@ function talk (props) {
  * @returns app {object}
  */
 
-app.setup = function (baseURL, token, timeout) {
+function methodSetup (baseURL, token, timeout) {
   var url = urltool.parse (baseURL, true);
 
   app.settings.baseURL = url.protocol + '//' + url.host + url.pathname.replace (/\/[^\/]+$/, '/');
@@ -131,7 +131,7 @@ app.setup = function (baseURL, token, timeout) {
 
   app.settings.timeout = timeout || app.settings.timeout;
   return app;
-};
+}
 
 
 /**
@@ -144,7 +144,7 @@ app.setup = function (baseURL, token, timeout) {
  * @returns app {object}
  */
 
-app.api = function (vars, cb) {
+function methodApi (vars, cb) {
   vars = typeof vars === 'object' ? vars : {};
   vars.module = 'API';
   vars.format = 'JSON';
@@ -158,7 +158,7 @@ app.api = function (vars, cb) {
   });
 
   return app;
-};
+}
 
 
 /**
@@ -170,7 +170,7 @@ app.api = function (vars, cb) {
  * @returns app {object}
  */
 
-app.track = function (vars, cb) {
+function methodTrack (vars, cb) {
   var bulk = {
     requests: []
   };
@@ -238,7 +238,7 @@ app.track = function (vars, cb) {
   });
 
   return app;
-};
+}
 
 
 /**
@@ -249,7 +249,7 @@ app.track = function (vars, cb) {
  * @returns app {object}
  */
 
-app.loadSpammers = function (cb) {
+function methodLoadSpammers (cb) {
   var options = {
     timeout: app.settings.timeout
   };
@@ -281,7 +281,12 @@ app.loadSpammers = function (cb) {
   );
 
   return app;
-};
+}
+
 
 // module
+app.setup = methodSetup;
+app.api = methodApi;
+app.track = methodTrack;
+app.loadSpammers = methodLoadSpammers;
 module.exports = app;
