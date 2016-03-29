@@ -179,31 +179,39 @@ app.track = function (vars, cb) {
   var val;
   var keys;
 
-  if (app.settings.token) { bulk.token_auth = app.settings.token; }
+  if (app.settings.token) {
+    bulk.token_auth = app.settings.token;
+  }
 
   if (vars instanceof Array && vars [0] instanceof Object) {
     // array with objects
     for (i = 0; i < vars.length; i++) {
       keys = Object.keys (vars [i]);
+
       for (k = 0; k < keys.length; k++) {
         val = vars [i] [keys [k]];
         vars [i] [keys [k]] = typeof val === 'object' ? JSON.stringify (val) : val;
       }
+
       vars [i] .rec = 1;
       vars [i] .apiv = 1;
       vars [i] = '?' + querystring.stringify (vars [i]);
+
       bulk.requests.push (vars [i]);
       delete vars [i];
     }
   } else if (vars instanceof Object) {
     // object
     keys = Object.keys (vars);
+
     for (i = 0; i < keys.length; i++) {
       val = vars [keys [i]];
       vars [keys [i]] = typeof val === 'object' ? JSON.stringify (val) : val;
     }
+
     vars.rec = 1;
     vars.apiv = 1;
+
     bulk.requests.push ('?' + querystring.stringify (vars));
   }
 
@@ -214,7 +222,9 @@ app.track = function (vars, cb) {
     callback: function (err, data) {
       var error = null;
 
-      if (err && cb) { return cb (err); }
+      if (err && cb) {
+        return cb (err);
+      }
 
       if (data.status === 'success') {
         cb && cb (null, data);
@@ -251,14 +261,18 @@ app.loadSpammers = function (cb) {
       var i;
       var line;
 
-      if (err && cb) { return cb (err); }
+      if (err && cb) {
+        return cb (err);
+      }
 
       for (i = 0; i < data.length; i++) {
         line = data [i] .trim ();
+
         if (line === '') {
           delete data [i];
         }
       }
+
       data = data.sort ();
       cb && cb (null, data);
     }
