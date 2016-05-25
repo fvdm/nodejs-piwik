@@ -15,6 +15,10 @@
     "url": "https://github.com/fvdm/nodejs-piwik/issues"
   },
   "main": "piwik.js",
+  "files": [
+    "CHANGELOG.md",
+    "example.js"
+  ],
   "dependencies": {
     "httpreq": "^0.4.22"
   },
