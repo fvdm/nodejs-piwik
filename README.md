@@ -33,13 +33,12 @@ piwik.track (
 Installation
 ------------
 
-Normal: `npm install piwik`
-
-Development: `npm install fvdm/nodejs-piwik#develop`
+`npm install piwik`
 
 
-.setup ( baseURL, [token], [timeout] )
+.setup
 ------
+**( baseURL, [token], [timeout] )**
 
 In order to use this module you need to start with `setup()`.
 
@@ -54,8 +53,9 @@ var piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
 ```
 
 
-.api ( vars, callback )
+.api
 ----
+**( vars, callback )**
 
 Call an API method.
 
@@ -83,8 +83,9 @@ piwik.api (
 ```
 
 
-.track ( vars, callback )
+.track
 ------
+**( vars, callback )**
 
 Track a hit.
 
@@ -129,8 +130,9 @@ piwik.track (
 ```
 
 
-.loadSpammers ( callback )
+.loadSpammers
 -------------
+**( callback )**
 
 Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
 
@@ -173,9 +175,10 @@ track failed     | Track method failed    | `err.data`
 piwik.api (props, function (err, data) {
   if (err) {
     console.log (err);
-  } else {
-    console.log (data);
+    return;
   }
+
+  console.log (data);
 });
 ```
 
@@ -212,6 +215,4 @@ For more information, please refer to <http://unlicense.org>
 Author
 ------
 
-Franklin van de Meent
-| [Website](https://frankl.in)
-| [Github](https://github.com/fvdm)
+[Franklin van de Meent](https://frankl.in)
