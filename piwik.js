@@ -99,9 +99,11 @@ function talk (props) {
   }
 
   // send request
-  http.doRequest (options, function (err, res) {
+  function httpResponse (err, res) {
     processResponse (err, res, props.callback);
-  });
+  }
+
+  http.doRequest (options, httpResponse);
 }
 
 
