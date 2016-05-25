@@ -16,11 +16,11 @@
   },
   "main": "piwik.js",
   "dependencies": {
-    "httpreq": "^0.4.16"
+    "httpreq": "^0.4.22"
   },
   "devDependencies": {
-    "dotest": "^1.4.0",
-    "eslint": "^2.5.1"
+    "dotest": "^1.11.0",
+    "eslint": "^2.10.2"
   },
   "optionalDependencies": {},
   "engines": {
