@@ -15,6 +15,7 @@
     "url": "https://github.com/fvdm/nodejs-piwik/issues"
   },
   "main": "piwik.js",
+  "tonicExampleFilename": "example.js",
   "files": [
     "CHANGELOG.md",
     "example.js"
