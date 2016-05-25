@@ -22,8 +22,8 @@ var piwik = app.setup (url, token, timeout);
 
 
 // Module
-dotest.add ('Module', function () {
-  dotest.test ()
+dotest.add ('Module', function (test) {
+  test ()
     .isObject ('fail', 'exports', app)
     .isFunction ('fail', '.setup function', app && app.setup)
     .isObject ('fail', '.setup return', piwik)
@@ -34,13 +34,13 @@ dotest.add ('Module', function () {
 });
 
 // ! API error
-dotest.add ('API error', function () {
+dotest.add ('API error', function (test) {
   piwik.api (
     {
       method: 'invalid method name'
     },
     function (err) {
-      dotest.test ()
+      test ()
         .isError ('fail', 'err', err)
         .isExactly ('fail', 'err.message', err && err.message, 'api error')
         .done ();
@@ -49,7 +49,7 @@ dotest.add ('API error', function () {
 });
 
 // ! Track one
-dotest.add ('.track method - one hit', function () {
+dotest.add ('.track method - one hit', function (test) {
   piwik.track (
     {
       idsite: siteId,
@@ -59,7 +59,7 @@ dotest.add ('.track method - one hit', function () {
       }
     },
     function (err, data) {
-      dotest.test (err)
+      test (err)
         .isObject ('fail', 'data', data)
         .isExactly ('fail', 'data.status', data && data.status, 'success')
         .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
@@ -69,7 +69,7 @@ dotest.add ('.track method - one hit', function () {
 });
 
 // ! Track multi
-dotest.add ('.track method - multiple hits', function () {
+dotest.add ('.track method - multiple hits', function (test) {
   piwik.track (
     [
       {
@@ -88,7 +88,7 @@ dotest.add ('.track method - multiple hits', function () {
       }
     ],
     function (err, data) {
-      dotest.test (err)
+      test (err)
         .isObject ('fail', 'data', data)
         .isExactly ('fail', 'data.status', data && data.status, 'success')
         .isExactly ('fail', 'data.tracked', data && data.tracked, 2)
@@ -99,7 +99,7 @@ dotest.add ('.track method - multiple hits', function () {
 
 
 // ! API
-dotest.add ('.api method', function () {
+dotest.add ('.api method', function (test) {
   piwik.api (
     {
       method: 'Actions.getPageUrls',
@@ -108,7 +108,7 @@ dotest.add ('.api method', function () {
       date: 'today'
     },
     function (err, data) {
-      dotest.test (err)
+      test (err)
         .isArray ('fail', 'data', data)
         .isNotEmpty ('fail', 'data', data)
         .isObject ('fail', 'data[0]', data && data [0])
@@ -120,9 +120,9 @@ dotest.add ('.api method', function () {
 
 
 // ! loadSpammers
-dotest.add ('.loadSpammers method', function () {
+dotest.add ('.loadSpammers method', function (test) {
   piwik.loadSpammers (function (err, data) {
-    dotest.test (err)
+    test (err)
       .isArray ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isString ('fail', 'data[0]', data && data [0])
