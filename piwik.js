@@ -35,26 +35,35 @@ function processResponse (err, res, callback) {
   if (err) {
     error = new Error ('request failed');
     error.error = err;
+    callback (error);
+    return;
   }
 
   try {
     data = JSON.parse (data);
+
     if (data.result && data.result === 'error') {
       error = new Error ('api error');
       error.text = data.message || null;
+      callback (error);
+      return;
     }
   } catch (e) {
     error = new Error ('response invalid');
     error.error = e;
+    callback (error);
+    return;
   }
 
   if (res && res.statusCode && res.statusCode >= 300) {
     error = new Error ('http error');
     error.code = res.statusCode;
     error.body = data;
+    callback (error);
+    return;
   }
 
-  callback && callback (error, !error && data);
+  callback && callback (null, data);
 }
 
 
