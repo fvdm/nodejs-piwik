@@ -29,7 +29,7 @@
     "eslint": "^3.0.0"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=4.0.0"
   },
   "keywords": [
     "analytics",
