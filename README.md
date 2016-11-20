@@ -7,6 +7,8 @@ Track hits and access a Piwik API with Node.js
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-piwik/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-piwik?branch=master)
 [![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/dependencies/npm)
+[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/code.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik)
+
 
 * [node.js](https://nodejs.org/)
 * [Piwik](http://piwik.org/)
