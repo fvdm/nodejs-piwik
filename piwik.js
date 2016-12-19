@@ -283,18 +283,19 @@ function methodLoadSpammers (callback) {
     'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
     options,
     function (err, res) {
-      var data = res.body
-        .trim()
-        .replace (/\s+\n/g, '\n')
-        .split ('\n');
+      var data;
 
       if (err) {
         callback (err);
-        return;
-      }
+      } else {
+        data = res.body
+          .trim()
+          .replace (/\s+\n/g, '\n')
+          .split ('\n')
+          .sort();
 
-      data = data.sort();
-      callback (null, data);
+        callback (null, data);
+      }
     }
   );
 
