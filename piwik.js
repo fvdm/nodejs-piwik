@@ -93,8 +93,8 @@ function talk (props) {
   // build request
   if (props.query instanceof Object) {
     for (key in props.query) {
-      if (typeof props.query [key] === 'object') {
-        props.query [key] = JSON.stringify (props.query [key]);
+      if (typeof props.query[key] === 'object') {
+        props.query[key] = JSON.stringify (props.query[key]);
       }
     }
   }
@@ -103,8 +103,8 @@ function talk (props) {
     options.parameters = props.query;
   } else if (props.body) {
     options.body = props.body;
-    options.headers ['Content-Type'] = 'application/json';
-    options.headers ['Content-Length'] = options.body.length;
+    options.headers['Content-Type'] = 'application/json';
+    options.headers['Content-Length'] = options.body.length;
   }
 
   // send request
@@ -194,7 +194,7 @@ function methodTrack (vars, cb) {
     bulk.token_auth = app.settings.token;
   }
 
-  if (vars instanceof Array && vars [0] instanceof Object) {
+  if (vars instanceof Array && vars[0] instanceof Object) {
     // array with objects
     for (i = 0; i < vars.length; i++) {
       keys = Object.keys (vars [i]);
@@ -269,7 +269,7 @@ function methodLoadSpammers (cb) {
     'https://github.com/piwik/referrer-spam-blacklist/raw/master/spammers.txt',
     options,
     function (err, res) {
-      var data = res.body.trim () .split ('\n');
+      var data = res.body.trim().split ('\n');
       var i;
       var line;
 
@@ -279,14 +279,14 @@ function methodLoadSpammers (cb) {
       }
 
       for (i = 0; i < data.length; i++) {
-        line = data [i] .trim ();
+        line = data[i].trim();
 
         if (line === '') {
-          delete data [i];
+          delete data[i];
         }
       }
 
-      data = data.sort ();
+      data = data.sort();
       cb && cb (null, data);
     }
   );
