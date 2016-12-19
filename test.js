@@ -34,6 +34,18 @@ dotest.add ('Interface', function (test) {
 });
 
 
+// ! loadSpammers
+dotest.add ('.loadSpammers method', function (test) {
+  piwik.loadSpammers (function (err, data) {
+    test (err)
+      .isArray ('fail', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isString ('fail', 'data[0]', data && data [0])
+      .done ();
+  });
+});
+
+
 // ! API error
 dotest.add ('API error', function (test) {
   piwik.api (
@@ -119,18 +131,6 @@ dotest.add ('.track method - multiple hits', function (test) {
         .done ();
     }
   );
-});
-
-
-// ! loadSpammers
-dotest.add ('.loadSpammers method', function (test) {
-  piwik.loadSpammers (function (err, data) {
-    test (err)
-      .isArray ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
-      .isString ('fail', 'data[0]', data && data [0])
-      .done ();
-  });
 });
 
 
