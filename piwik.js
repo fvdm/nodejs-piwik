@@ -159,13 +159,13 @@ function methodSetup (baseURL, token, timeout) {
  * API call
  *
  * @callback callback
- * @callback cb
+ * @callback callback
  * @param [vars] {object} - Parameters
- * @param [cb] {function} - `function (err, res) {}`
+ * @param [callback] {function} - `function (err, res) {}`
  * @returns app {object}
  */
 
-function methodApi (vars, cb) {
+function methodApi (vars, callback) {
   vars = typeof vars === 'object' ? vars : {};
   vars.module = 'API';
   vars.format = 'JSON';
@@ -175,7 +175,7 @@ function methodApi (vars, cb) {
     method: 'GET',
     path: 'index.php',
     query: vars,
-    callback: cb || null
+    callback: callback || null
   });
 
   return app;
@@ -215,13 +215,13 @@ function trackObject2request (obj) {
 /**
  * Track one or multiple hits
  *
- * @callback cb
+ * @callback callback
  * @param vars {object|array} - Parameters or array with parameters objects
- * @param [cb] {function} - Optional `function (err, res) {}`
+ * @param [callback] {function} - Optional `function (err, res) {}`
  * @returns app {object}
  */
 
-function methodTrack (vars, cb) {
+function methodTrack (vars, callback) {
   var bulk = {
     requests: []
   };
@@ -246,15 +246,15 @@ function methodTrack (vars, cb) {
     path: 'piwik.php',
     body: JSON.stringify (bulk),
     callback: function (err, data) {
-      if (err && cb) {
-        cb (err);
+      if (err && callback) {
+        callback (err);
         return;
       }
 
       if (data.status === 'success') {
-        cb && cb (null, data);
+        callback && callback (null, data);
       } else {
-        callbackError ('track failed', data, null, cb);
+        callbackError ('track failed', data, null, callback);
       }
     }
   });
@@ -266,8 +266,8 @@ function methodTrack (vars, cb) {
 /**
  * Get spammers list from Github repo
  *
- * @callback cb
- * @param cb {function}
+ * @callback callback
+ * @param callback {function}
  * @returns app {object}
  */
 
