@@ -183,6 +183,36 @@ function methodApi (vars, cb) {
 
 
 /**
+ * Convert tracking object to full querystring
+ *
+ * @param obj {object} - The tracking object
+ * @return {string} - Full querystring for request
+ */
+
+function trackObject2request (obj) {
+  var keys = Object.keys (obj);
+  var key;
+  var val;
+  var i;
+
+  for (i = 0; i < keys.length; i++) {
+    key = keys[i];
+    val = obj[key];
+
+    if (typeof val === 'object') {
+      val = JSON.stringify (val);
+    }
+
+    obj[key] = val;
+  }
+
+  obj.rec = 1;
+  obj.apiv = 1;
+  return '?' + querystring.stringify (obj);
+}
+
+
+/**
  * Track one or multiple hits
  *
  * @callback cb
@@ -196,9 +226,6 @@ function methodTrack (vars, cb) {
     requests: []
   };
   var i;
-  var k;
-  var val;
-  var keys;
 
   if (app.settings.token) {
     bulk.token_auth = app.settings.token;
@@ -207,33 +234,11 @@ function methodTrack (vars, cb) {
   if (vars instanceof Array && vars[0] instanceof Object) {
     // array with objects
     for (i = 0; i < vars.length; i++) {
-      keys = Object.keys (vars [i]);
-
-      for (k = 0; k < keys.length; k++) {
-        val = vars [i] [keys [k]];
-        vars [i] [keys [k]] = typeof val === 'object' ? JSON.stringify (val) : val;
-      }
-
-      vars [i] .rec = 1;
-      vars [i] .apiv = 1;
-      vars [i] = '?' + querystring.stringify (vars [i]);
-
-      bulk.requests.push (vars [i]);
-      delete vars [i];
+      bulk.requests.push (trackObject2request (vars[i]));
     }
   } else if (vars instanceof Object) {
     // object
-    keys = Object.keys (vars);
-
-    for (i = 0; i < keys.length; i++) {
-      val = vars [keys [i]];
-      vars [keys [i]] = typeof val === 'object' ? JSON.stringify (val) : val;
-    }
-
-    vars.rec = 1;
-    vars.apiv = 1;
-
-    bulk.requests.push ('?' + querystring.stringify (vars));
+    bulk.requests.push (trackObject2request (vars));
   }
 
   talk ({
