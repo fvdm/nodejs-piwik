@@ -73,7 +73,9 @@ function processResponse (err, res, callback) {
     return;
   }
 
-  callback && callback (null, data);
+  if (callback) {
+    callback (null, data);
+  }
 }
 
 
@@ -251,9 +253,9 @@ function methodTrack (vars, callback) {
         return;
       }
 
-      if (data.status === 'success') {
-        callback && callback (null, data);
-      } else {
+      if (data.status === 'success' && callback) {
+        callback (null, data);
+      } else if (callback) {
         callbackError ('track failed', data, null, callback);
       }
     }
