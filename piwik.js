@@ -140,7 +140,8 @@ function talk (props) {
 function methodSetup (baseURL, token, timeout) {
   var url = urltool.parse (baseURL, true);
 
-  app.settings.baseURL = url.protocol + '//' + url.host + url.pathname.replace (/\/[^\/]+$/, '/');
+  app.settings.baseURL = url.protocol + '//' + url.host
+    + url.pathname.replace (/\/[^\/]+$/, '/');
 
   // token in baseURL?
   app.settings.token = url.query && url.query.token_auth || null;
