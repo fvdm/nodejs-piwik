@@ -271,7 +271,7 @@ function methodTrack (vars, cb) {
  * @returns app {object}
  */
 
-function methodLoadSpammers (cb) {
+function methodLoadSpammers (callback) {
   var options = {
     timeout: app.settings.timeout
   };
@@ -284,8 +284,8 @@ function methodLoadSpammers (cb) {
       var i;
       var line;
 
-      if (err && cb) {
-        cb (err);
+      if (err) {
+        callback (err);
         return;
       }
 
@@ -298,7 +298,7 @@ function methodLoadSpammers (cb) {
       }
 
       data = data.sort();
-      cb && cb (null, data);
+      callback (null, data);
     }
   );
 
