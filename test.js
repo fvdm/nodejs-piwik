@@ -21,8 +21,8 @@ var timeout = process.env.PIWIK_TIMEOUT || 5000;
 var piwik = app.setup (url, token, timeout);
 
 
-// Module
-dotest.add ('Module', function (test) {
+// Interface
+dotest.add ('Interface', function (test) {
   test ()
     .isObject ('fail', 'exports', app)
     .isFunction ('fail', '.setup function', app && app.setup)
