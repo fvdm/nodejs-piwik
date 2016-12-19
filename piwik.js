@@ -19,6 +19,26 @@ var app = {
 
 
 /**
+ * Callback an error
+ *
+ * @callback callback
+ * @param msg {string} - Error.message
+ * @param err {mixed} - Error.error
+ * @param code {number|null} - Error.code, i.e. `res.statusCode`
+ * @param callback {function} - `function (error) {}`
+ * @return {void}
+ */
+
+function callbackError (msg, err, code, callback) {
+  var error = new Error (msg);
+
+  error.error = err;
+  error.code = code;
+  callback (error);
+}
+
+
+/**
  * Process talk() response
  *
  * @callback callback
@@ -30,12 +50,9 @@ var app = {
 
 function processResponse (err, res, callback) {
   var data = res && res.body || null;
-  var error = null;
 
   if (err) {
-    error = new Error ('request failed');
-    error.error = err;
-    callback (error);
+    callbackError ('request failed', err, null, callback);
     return;
   }
 
@@ -43,23 +60,16 @@ function processResponse (err, res, callback) {
     data = JSON.parse (data);
 
     if (data.result && data.result === 'error') {
-      error = new Error ('api error');
-      error.text = data.message || null;
-      callback (error);
+      callbackError ('api error', data.message, null, callback);
       return;
     }
   } catch (e) {
-    error = new Error ('response invalid');
-    error.error = e;
-    callback (error);
+    callbackError ('response invalid', e, null, callback);
     return;
   }
 
   if (res && res.statusCode && res.statusCode >= 300) {
-    error = new Error ('http error');
-    error.code = res.statusCode;
-    error.body = data;
-    callback (error);
+    callbackError ('http error', data, res.statusCode, callback);
     return;
   }
 
@@ -231,8 +241,6 @@ function methodTrack (vars, cb) {
     path: 'piwik.php',
     body: JSON.stringify (bulk),
     callback: function (err, data) {
-      var error = null;
-
       if (err && cb) {
         cb (err);
         return;
@@ -241,9 +249,7 @@ function methodTrack (vars, cb) {
       if (data.status === 'success') {
         cb && cb (null, data);
       } else {
-        error = new Error ('track failed');
-        error.data = data;
-        cb && cb (error);
+        callbackError ('track failed', data, null, cb);
       }
     }
   });
