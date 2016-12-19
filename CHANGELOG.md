@@ -1,3 +1,9 @@
+#### 1.0.8 (2016-12-19)
+
+##### Refactors
+
+* **talk:** Reduced code complexity ([4994635b](https://github.com/fvdm/nodejs-piwik/commit/4994635b287c932ce8db18ab5074f3892cf6800e))
+
 #### 1.0.7 (2016-12-19)
 
 ##### Chores
