@@ -33,6 +33,7 @@ dotest.add ('Interface', function (test) {
     .done ();
 });
 
+
 // ! API error
 dotest.add ('API error', function (test) {
   piwik.api (
@@ -47,6 +48,28 @@ dotest.add ('API error', function (test) {
     }
   );
 });
+
+
+// ! API
+dotest.add ('.api method', function (test) {
+  piwik.api (
+    {
+      method: 'Actions.getPageUrls',
+      idSite: siteId,
+      period: 'year',
+      date: 'today'
+    },
+    function (err, data) {
+      test (err)
+        .isArray ('fail', 'data', data)
+        .isNotEmpty ('fail', 'data', data)
+        .isObject ('fail', 'data[0]', data && data [0])
+        .isString ('fail', 'data[0].label', data && data [0] && data [0] .label)
+        .done ();
+    }
+  );
+});
+
 
 // ! Track one
 dotest.add ('.track method - one hit', function (test) {
@@ -67,6 +90,7 @@ dotest.add ('.track method - one hit', function (test) {
     }
   );
 });
+
 
 // ! Track multi
 dotest.add ('.track method - multiple hits', function (test) {
@@ -92,27 +116,6 @@ dotest.add ('.track method - multiple hits', function (test) {
         .isObject ('fail', 'data', data)
         .isExactly ('fail', 'data.status', data && data.status, 'success')
         .isExactly ('fail', 'data.tracked', data && data.tracked, 2)
-        .done ();
-    }
-  );
-});
-
-
-// ! API
-dotest.add ('.api method', function (test) {
-  piwik.api (
-    {
-      method: 'Actions.getPageUrls',
-      idSite: siteId,
-      period: 'year',
-      date: 'today'
-    },
-    function (err, data) {
-      test (err)
-        .isArray ('fail', 'data', data)
-        .isNotEmpty ('fail', 'data', data)
-        .isObject ('fail', 'data[0]', data && data [0])
-        .isString ('fail', 'data[0].label', data && data [0] && data [0] .label)
         .done ();
     }
   );
