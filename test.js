@@ -134,5 +134,26 @@ dotest.add ('.track method - multiple hits', function (test) {
 });
 
 
+// ! Track without token
+dotest.add ('.track method - without token', function (test) {
+  var tmp = app.setup (url, timeout);
+  var params = {
+    idsite: siteId,
+    url: 'https://www.npmjs.com/package/piwik',
+    cvar: {
+      1: ['node test', process.version]
+    }
+  };
+
+  tmp.track (params, function (err, data) {
+    test (err)
+      .isObject ('fail', 'data', data)
+      .isExactly ('fail', 'data.status', data && data.status, 'success')
+      .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
+      .done ();
+  });
+});
+
+
 // Start the tests
 dotest.run ();
