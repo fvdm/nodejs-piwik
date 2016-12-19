@@ -48,44 +48,62 @@ dotest.add ('.loadSpammers method', function (test) {
 
 // ! API error
 dotest.add ('API error', function (test) {
-  piwik.api (
-    {
-      method: 'invalid method name'
-    },
-    function (err) {
-      test ()
-        .isError ('fail', 'err', err)
-        .isExactly ('fail', 'err.message', err && err.message, 'api error')
-        .done ();
-    }
-  );
+  var params = {
+    method: 'invalid method name'
+  };
+
+  piwik.api (params, function (err) {
+    test ()
+      .isError ('fail', 'err', err)
+      .isExactly ('fail', 'err.message', err && err.message, 'api error')
+      .done ();
+  });
 });
 
 
 // ! API
 dotest.add ('.api method', function (test) {
-  piwik.api (
-    {
-      method: 'Actions.getPageUrls',
-      idSite: siteId,
-      period: 'year',
-      date: 'today'
-    },
-    function (err, data) {
-      test (err)
-        .isArray ('fail', 'data', data)
-        .isNotEmpty ('fail', 'data', data)
-        .isObject ('fail', 'data[0]', data && data [0])
-        .isString ('fail', 'data[0].label', data && data [0] && data [0] .label)
-        .done ();
-    }
-  );
+  var params = {
+    method: 'Actions.getPageUrls',
+    idSite: siteId,
+    period: 'year',
+    date: 'today'
+  };
+
+  piwik.api (params, function (err, data) {
+    test (err)
+      .isArray ('fail', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isObject ('fail', 'data[0]', data && data [0])
+      .isString ('fail', 'data[0].label', data && data [0] && data [0] .label)
+      .done ();
+  });
 });
 
 
 // ! Track one
 dotest.add ('.track method - one hit', function (test) {
-  piwik.track (
+  var params = {
+    idsite: siteId,
+    url: 'https://www.npmjs.com/package/piwik',
+    cvar: {
+      1: ['node test', process.version]
+    }
+  };
+
+  piwik.track (params, function (err, data) {
+    test (err)
+      .isObject ('fail', 'data', data)
+      .isExactly ('fail', 'data.status', data && data.status, 'success')
+      .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
+      .done ();
+  });
+});
+
+
+// ! Track multi
+dotest.add ('.track method - multiple hits', function (test) {
+  var params = [
     {
       idsite: siteId,
       url: 'https://www.npmjs.com/package/piwik',
@@ -93,44 +111,22 @@ dotest.add ('.track method - one hit', function (test) {
         1: ['node test', process.version]
       }
     },
-    function (err, data) {
-      test (err)
-        .isObject ('fail', 'data', data)
-        .isExactly ('fail', 'data.status', data && data.status, 'success')
-        .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
-        .done ();
-    }
-  );
-});
-
-
-// ! Track multi
-dotest.add ('.track method - multiple hits', function (test) {
-  piwik.track (
-    [
-      {
-        idsite: siteId,
-        url: 'https://www.npmjs.com/package/piwik',
-        cvar: {
-          1: ['node test', process.version]
-        }
-      },
-      {
-        idsite: siteId,
-        url: 'https://github.com/fvdm/nodejs-piwik',
-        cvar: {
-          1: ['node test', process.version]
-        }
+    {
+      idsite: siteId,
+      url: 'https://github.com/fvdm/nodejs-piwik',
+      cvar: {
+        1: ['node test', process.version]
       }
-    ],
-    function (err, data) {
-      test (err)
-        .isObject ('fail', 'data', data)
-        .isExactly ('fail', 'data.status', data && data.status, 'success')
-        .isExactly ('fail', 'data.tracked', data && data.tracked, 2)
-        .done ();
     }
-  );
+  ];
+
+  piwik.track (params, function (err, data) {
+    test (err)
+      .isObject ('fail', 'data', data)
+      .isExactly ('fail', 'data.status', data && data.status, 'success')
+      .isExactly ('fail', 'data.tracked', data && data.tracked, 2)
+      .done ();
+  });
 });
 
 
