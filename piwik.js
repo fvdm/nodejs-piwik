@@ -97,7 +97,7 @@ function talk (props) {
   var key;
   var options = {
     url: app.settings.baseURL + (props.path || ''),
-    method: props.method || 'GET',
+    method: props.method,
     headers: {},
     timeout: props.timeout || app.settings.timeout
   };
@@ -120,11 +120,9 @@ function talk (props) {
   }
 
   // send request
-  function httpResponse (err, res) {
+  http.doRequest (options, function (err, res) {
     processResponse (err, res, props.callback);
-  }
-
-  http.doRequest (options, httpResponse);
+  });
 }
 
 
