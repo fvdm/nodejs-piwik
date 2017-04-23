@@ -220,3 +220,5 @@ Author
 ------
 
 [Franklin van de Meent](https://frankl.in)
+
+[![Buy me a coffee](https://frankl.in/u/kofi/kofi-readme.png)](https://ko-fi.com/franklin)
