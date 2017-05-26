@@ -4,7 +4,7 @@ Description:    Access a Piwik API or track hits with node.js
 Author:         Franklin van de Meent (https://frankl.in)
 Source & docs:  https://github.com/fvdm/nodejs-piwik
 Feedback:       https://github.com/fvdm/nodejs-piwik/issues
-License:        Unlicense / Public Domain (see UNLICENSE file)
+License:        Unlicense (Public Domain, see UNLICENSE file)
                 (https://github.com/fvdm/nodejs-piwik/raw/develop/UNLICENSE)
 */
 
@@ -21,12 +21,12 @@ var app = {
 /**
  * Callback an error
  *
- * @callback callback
- * @param msg {string} - Error.message
- * @param err {mixed} - Error.error
- * @param code {number|null} - Error.code, i.e. `res.statusCode`
- * @param callback {function} - `function (error) {}`
- * @return {void}
+ * @callback  callback
+ * @param     {string}       msg       Error.message
+ * @param     {mixed}        err       Error.error
+ * @param     {number|null}  code      Error.code, i.e. `res.statusCode`
+ * @param     {function}     callback  `function (error) {}`
+ * @return    {void}
  */
 
 function callbackError (msg, err, code, callback) {
@@ -41,11 +41,11 @@ function callbackError (msg, err, code, callback) {
 /**
  * Process talk() response
  *
- * @callback callback
- * @param err {Error} - Response error
- * @param res {object} - Response resource
- * @param [callback] {function} - Optional `function (err, res) {}`
- * @returns {void}
+ * @callback  callback
+ * @param     {Error|null}  err         Response error
+ * @param     {object}      res         Response resource
+ * @param     {function}    [callback]  `(err, res)`
+ * @returns   {void}
  */
 
 function processResponse (err, res, callback) {
@@ -82,15 +82,15 @@ function processResponse (err, res, callback) {
 /**
  * API communication
  *
- * @callback props.callback
- * @param props {object} - Response resource
- * @param [props.method] {string=GET} - HTTP method: GET, POST
- * @param [props.path] {string=/} - Request path after hostname
- * @param [props.timeout] {number-5000} - Request time out in ms
- * @param [props.query] {object} - Data fields to send along
- * @param [props.body] {string} - POST JSON encoded body
- * @param [props.callback] {function} - Optional `function (err, res) {}`
- * @returns {void}
+ * @callback  props.callback
+ * @param     {object}        props                 Response resource
+ * @param     {string}        [props.method=GET]    HTTP method: GET, POST
+ * @param     {string}        [props.path=/]        Request path after hostname
+ * @param     {number}        [props.timeout=5000]  Request time out in ms
+ * @param     {object}        [props.query]         Data fields to send along
+ * @param     {string}        [props.body]          POST JSON encoded body
+ * @param     {function}      [props.callback]      `(err, res)`
+ * @returns   {void}
  */
 
 function talk (props) {
@@ -129,10 +129,10 @@ function talk (props) {
 /**
  * Setup basics
  *
- * @param baseURL {string} - Piwik URL
- * @param [token] {string=baseURL token_auth} - Piwik API token
- * @param [timeout] {number} - Request time out in ms
- * @returns app {object}
+ * @param    {string}  baseURL                     Piwik URL
+ * @param    {string}  [token=baseURL token_auth]  Piwik API token
+ * @param    {number}  [timeout=5000]              Request time out in ms
+ * @returns  {object}  app
  */
 
 function methodSetup (baseURL, token, timeout) {
@@ -159,11 +159,10 @@ function methodSetup (baseURL, token, timeout) {
 /**
  * API call
  *
- * @callback callback
- * @callback callback
- * @param [vars] {object} - Parameters
- * @param [callback] {function} - `function (err, res) {}`
- * @returns app {object}
+ * @callback  callback
+ * @param     {object}    [vars]      Parameters
+ * @param     {function}  [callback]  `(err, res)`
+ * @returns   {object}    app
  */
 
 function methodApi (vars, callback) {
@@ -186,8 +185,8 @@ function methodApi (vars, callback) {
 /**
  * Convert tracking object to full querystring
  *
- * @param obj {object} - The tracking object
- * @return {string} - Full querystring for request
+ * @param   {object}  obj  The tracking object
+ * @return  {string}       Full querystring for request
  */
 
 function trackObject2request (obj) {
@@ -216,10 +215,10 @@ function trackObject2request (obj) {
 /**
  * Track one or multiple hits
  *
- * @callback callback
- * @param vars {object|array} - Parameters or array with parameters objects
- * @param [callback] {function} - Optional `function (err, res) {}`
- * @returns app {object}
+ * @callback  callback
+ * @param     {object|array}  vars        Parameters or array with parameters objects
+ * @param     {function}      [callback]  `(err, res)`
+ * @returns   {object}        app
  */
 
 function methodTrack (vars, callback) {
@@ -267,9 +266,9 @@ function methodTrack (vars, callback) {
 /**
  * Get spammers list from Github repo
  *
- * @callback callback
- * @param callback {function}
- * @returns app {object}
+ * @callback  callback
+ * @param     {function}  callback
+ * @returns   {object}    app
  */
 
 function methodLoadSpammers (callback) {
