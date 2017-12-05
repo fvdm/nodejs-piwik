@@ -1,6 +1,8 @@
 piwik
 =====
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-piwik.svg)](https://greenkeeper.io/)
+
 Track hits and access a Piwik API with Node.js
 
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
