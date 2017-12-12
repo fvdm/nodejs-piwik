@@ -1,5 +1,5 @@
 // load and configure
-var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+const piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
 
 // page urls for today
 piwik.api (
