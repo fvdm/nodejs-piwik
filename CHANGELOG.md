@@ -1,3 +1,37 @@
+#### 1.0.9 (2017-12-12)
+
+##### Chores
+
+* **package:**
+  * Update httpreq dependency ([3dc0ac3e](https://github.com/fvdm/nodejs-piwik/commit/3dc0ac3e5b7222337fd42f5c39dfd958a13656f2))
+  * Replace dev deps with dotest ([ef2ce569](https://github.com/fvdm/nodejs-piwik/commit/ef2ce5690e9a05015d98ccb4197b464eb383e8fc))
+  * Clean up package.json ([35bc0bf4](https://github.com/fvdm/nodejs-piwik/commit/35bc0bf42d5dfec0319945bf6e932354ff686f0c))
+  * Update dotest dev dep ([50f031a5](https://github.com/fvdm/nodejs-piwik/commit/50f031a51f4d5873936464a4e657827a936ec84e))
+  * Update dev deps ([8e4515f7](https://github.com/fvdm/nodejs-piwik/commit/8e4515f708b232ef4addca7204df6c5c914dc44a))
+  * update dotest to version 1.15.0 ([#25](https://github.com/fvdm/nodejs-piwik/pull/25)) ([a31e9c1f](https://github.com/fvdm/nodejs-piwik/commit/a31e9c1f2d74ca99c0e170d5cc0d653440f5119d))
+* **develop:** Cleanup .gitignore ([aad9cd70](https://github.com/fvdm/nodejs-piwik/commit/aad9cd707a1f3d29a3e325bd5db41930c23a6b9d))
+
+##### Documentation Changes
+
+* **readme:**
+  * Minor style edits ([d3b2531a](https://github.com/fvdm/nodejs-piwik/commit/d3b2531a82e5a070ef41832efd634a1fa399f5f0))
+  * Add coffee button to Author ([bf607c1d](https://github.com/fvdm/nodejs-piwik/commit/bf607c1d8fab3520252d8efa6cf213327b8ae3db))
+* **badges:**
+  * Set bithound badges to master ([229d85ab](https://github.com/fvdm/nodejs-piwik/commit/229d85abc720bacebb91bc276f876e174c8669b8))
+  * Move GreenKeeper ([263e0029](https://github.com/fvdm/nodejs-piwik/commit/263e00297b41373052098c7c9db5ebcb85131f02))
+
+##### Code Style Changes
+
+* **example:** Convert to ES6 syntax ([41c471a7](https://github.com/fvdm/nodejs-piwik/commit/41c471a746f8ede104782421b5521ea81fb6874c))
+* **comments:** Clean up JSDoc comments ([0d373a3c](https://github.com/fvdm/nodejs-piwik/commit/0d373a3c0cbaf86f1606ae016242446b232488f7))
+
+##### Tests
+
+* **style:** Convert syntax to ES6 ([cabcda71](https://github.com/fvdm/nodejs-piwik/commit/cabcda713f9ffe57f4d1dd51803f9f5f2688c3df))
+* **config:**
+  * Remove ecmaVersion from .eslintrc ([a5357fe4](https://github.com/fvdm/nodejs-piwik/commit/a5357fe4c09c8f6ad69239a551a7bc29f3c242ba))
+  * Update Travis CI node versions ([aa6608dc](https://github.com/fvdm/nodejs-piwik/commit/aa6608dc2fd0a0562bad3668d2dd3017d3a2e922))
+
 #### 1.0.8 (2016-12-19)
 
 ##### Refactors
