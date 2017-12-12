@@ -8,82 +8,82 @@ License:        Unlicense / Public Domain (see UNLICENSE file)
                 (https://github.com/fvdm/nodejs-piwik/raw/develop/UNLICENSE)
 */
 
-var dotest = require ('dotest');
-var app = require ('./');
+const dotest = require ('dotest');
+const app = require ('./');
 
 // Setup
 // $ PIWIK_URL= PIWIK_TOKEN= PIWIK_SITEID= npm test
-var url = process.env.PIWIK_URL || null;
-var token = process.env.PIWIK_TOKEN || null;
-var siteId = process.env.PIWIK_SITEID || null;
-var timeout = process.env.PIWIK_TIMEOUT || 5000;
+const url = process.env.PIWIK_URL || null;
+const token = process.env.PIWIK_TOKEN || null;
+const siteId = process.env.PIWIK_SITEID || null;
+const timeout = process.env.PIWIK_TIMEOUT || 5000;
 
-var piwik = app.setup (url, token, timeout);
+const piwik = app.setup (url, token, timeout);
 
 
 // Interface
-dotest.add ('Interface', function (test) {
-  test ()
+dotest.add ('Interface', test => {
+  test()
     .isObject ('fail', 'exports', app)
     .isFunction ('fail', '.setup function', app && app.setup)
     .isObject ('fail', '.setup return', piwik)
     .isFunction ('fail', '.api', app && app.api)
     .isFunction ('fail', '.track', app && app.track)
     .isFunction ('fail', '.loadSpammers', app && app.loadSpammers)
-    .done ();
+    .done();
 });
 
 
 // ! loadSpammers
-dotest.add ('.loadSpammers method', function (test) {
-  piwik.loadSpammers (function (err, data) {
+dotest.add ('.loadSpammers method', test => {
+  piwik.loadSpammers ((err, data) => {
     test (err)
       .isArray ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isString ('fail', 'data[0]', data && data [0])
-      .done ();
+      .done();
   });
 });
 
 
 // ! API error
-dotest.add ('API error', function (test) {
-  var params = {
+dotest.add ('API error', test => {
+  const params = {
     method: 'invalid method name'
   };
 
-  piwik.api (params, function (err) {
-    test ()
+  piwik.api (params, (err) => {
+    test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'api error')
-      .done ();
+      .done();
   });
 });
 
 
 // ! API
-dotest.add ('.api method', function (test) {
-  var params = {
+dotest.add ('.api method', test => {
+  const params = {
     method: 'Actions.getPageUrls',
     idSite: siteId,
     period: 'year',
     date: 'today'
   };
 
-  piwik.api (params, function (err, data) {
+  piwik.api (params, (err, data) => {
     test (err)
       .isArray ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isObject ('fail', 'data[0]', data && data [0])
       .isString ('fail', 'data[0].label', data && data [0] && data [0] .label)
-      .done ();
+      .done();
   });
 });
 
 
 // ! Track one
-dotest.add ('.track method - one hit', function (test) {
-  var params = {
+dotest.add ('.track method - one hit', test => {
+  const params = {
     idsite: siteId,
     url: 'https://www.npmjs.com/package/piwik',
     cvar: {
@@ -91,19 +91,19 @@ dotest.add ('.track method - one hit', function (test) {
     }
   };
 
-  piwik.track (params, function (err, data) {
+  piwik.track (params, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isExactly ('fail', 'data.status', data && data.status, 'success')
       .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
-      .done ();
+      .done();
   });
 });
 
 
 // ! Track multi
-dotest.add ('.track method - multiple hits', function (test) {
-  var params = [
+dotest.add ('.track method - multiple hits', test => {
+  const params = [
     {
       idsite: siteId,
       url: 'https://www.npmjs.com/package/piwik',
@@ -120,20 +120,20 @@ dotest.add ('.track method - multiple hits', function (test) {
     }
   ];
 
-  piwik.track (params, function (err, data) {
+  piwik.track (params, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isExactly ('fail', 'data.status', data && data.status, 'success')
       .isExactly ('fail', 'data.tracked', data && data.tracked, 2)
-      .done ();
+      .done();
   });
 });
 
 
 // ! Track without token
-dotest.add ('.track method - without token', function (test) {
-  var tmp = app.setup (url, timeout);
-  var params = {
+dotest.add ('.track method - without token', test => {
+  const tmp = app.setup (url, timeout);
+  const params = {
     idsite: siteId,
     url: 'https://www.npmjs.com/package/piwik',
     cvar: {
@@ -141,15 +141,15 @@ dotest.add ('.track method - without token', function (test) {
     }
   };
 
-  tmp.track (params, function (err, data) {
+  tmp.track (params, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isExactly ('fail', 'data.status', data && data.status, 'success')
       .isExactly ('fail', 'data.tracked', data && data.tracked, 1)
-      .done ();
+      .done();
   });
 });
 
 
 // Start the tests
-dotest.run ();
+dotest.run();
