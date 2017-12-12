@@ -18,8 +18,7 @@
   "tonicExampleFilename": "example.js",
   "files": [
     "CHANGELOG.md",
-    "example.js",
-    "UNLICENSE"
+    "example.js"
   ],
   "dependencies": {
     "httpreq": "^0.4.22"
