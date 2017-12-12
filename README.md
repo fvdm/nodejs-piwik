@@ -19,7 +19,7 @@ Example
 -------
 
 ```js
-var piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+const piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
 
 // track a pageview
 piwik.track (
@@ -37,7 +37,7 @@ piwik.track (
 Installation
 ------------
 
-`npm install piwik`
+`npm i piwik --save`
 
 
 .setup
@@ -53,7 +53,7 @@ token    | string  | no       | Your API access token. Either set `token` or inc
 timeout  | integer | no       | Request wait time out in ms, default `5000` (5 seconds).
 
 ```js
-var piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
+const piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
 ```
 
 
@@ -145,8 +145,8 @@ Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
 **Disclaimer:** the example below is intended only for educational purposes. ;)
 
 ```js
-var Kira = require ('Kira');
-var revenge = new Kira ();
+const Kira = require ('Kira');
+const revenge = new Kira ();
 
 piwik.loadSpammers (function (err, list) {
   if (err) { return console.log (err); }
