@@ -6,8 +6,8 @@ Track hits and access a Piwik API with Node.js
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-piwik/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-piwik?branch=master)
-[![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/dependencies/npm)
-[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/code.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik)
+[![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/master/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/dependencies/npm)
+[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/master/code.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/files)
 [![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-piwik.svg)](https://greenkeeper.io/)
 
 * [node.js](https://nodejs.org/)
