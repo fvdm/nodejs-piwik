@@ -1,28 +1,27 @@
-piwik
-=====
+# piwik (Matomo)
 
-Track hits and access a Piwik API with Node.js
+Track hits and access a Matomo API with Node.js
+
+_The package is named after the previous name of Matomo.
+I don't feel like changing the package name, because people are using it in their apps._
 
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-piwik/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-piwik?branch=master)
-[![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/master/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/dependencies/npm)
-[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-piwik/badges/master/code.svg)](https://www.bithound.io/github/fvdm/nodejs-piwik/master/files)
 [![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-piwik.svg)](https://greenkeeper.io/)
 
-* [node.js](https://nodejs.org/)
-* [Piwik](http://piwik.org/)
-* [API documentation](http://developer.piwik.org/api-reference/reporting-api-introduction)
+* [node.js](https://nodejs.org)
+* [Piwik](https://matomo.org)
+* [API documentation](https://developer.matomo.org/api-reference/reporting-api-introduction)
 
 
-Example
--------
+## Example
 
 ```js
-const piwik = require ('piwik').setup ('https://example.tld/piwik/', 'abc123');
+const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123');
 
 // track a pageview
-piwik.track (
+matomo.track (
   {
     idsite:      1,
     url:         'http://mysite.tld/some/page',
@@ -34,31 +33,28 @@ piwik.track (
 ```
 
 
-Installation
-------------
+## Installation
 
-`npm i piwik --save`
+`npm install piwik`
 
 
-.setup
-------
+## .setup
 **( baseURL, [token], [timeout] )**
 
 In order to use this module you need to start with `setup()`.
 
 argument | type    | required | description
 :--------|:--------|:---------|:-----------
-baseURL  | string  | yes      | The URL to your Piwik installation. Both HTTP and HTTPS are supported.
+baseURL  | string  | yes      | The URL to your Matomo installation. Both HTTP and HTTPS are supported.
 token    | string  | no       | Your API access token. Either set `token` or include `token_auth` in the `baseURL`.
 timeout  | integer | no       | Request wait time out in ms, default `5000` (5 seconds).
 
 ```js
-const piwik = require ('piwik') .setup ('https://example.tld/piwik/', 'abc123');
+const matomo = require ('piwik') .setup ('https://example.tld/matomo/', 'abc123');
 ```
 
 
-.api
-----
+## .api
 **( vars, callback )**
 
 Call an API method.
@@ -66,16 +62,16 @@ Call an API method.
 
 argument | type     | required | description
 :--------|:---------|:---------|:----------------------
-vars     | object   | yes      | see [documentiation](http://developer.piwik.org/api-reference/reporting-api-introduction)
+vars     | object   | yes      | see [documentation](https://developer.matomo.org/api-reference/reporting-api-introduction)
 callback | function | yes      | `function (err, data)`
 
 
-[Reporting API docs](http://developer.piwik.org/api-reference/reporting-api-introduction)
+[Reporting API docs](https://developer.matomo.org/api-reference/reporting-api-introduction)
 
 
 ```js
 // page urls for today
-piwik.api (
+matomo.api (
   {
     method:   'Actions.getPageUrls',
     idSite:   1,
@@ -87,8 +83,7 @@ piwik.api (
 ```
 
 
-.track
-------
+## .track
 **( vars, callback )**
 
 Track a hit.
@@ -96,16 +91,16 @@ Track a hit.
 
 argument | type            | required | description
 :--------|:----------------|:---------|:----------------------
-vars     | object or array | yes      | see [documentation](http://developer.piwik.org/api-reference/tracking-api)
+vars     | object or array | yes      | see [documentation](https://developer.matomo.org/api-reference/tracking-api)
 callback | function        | no       | `function (err, data)`
 
 
-[Tracking API docs](http://developer.piwik.org/api-reference/tracking-api)
+[Tracking API docs](https://developer.matomo.org/api-reference/tracking-api)
 
 
 ```js
 // track a pageview
-piwik.track (
+matomo.track (
   {
     idsite:      1,
     url:         'http://mysite.tld/some/page',
@@ -116,7 +111,7 @@ piwik.track (
 );
 
 // track many at once (log import)
-piwik.track (
+matomo.track (
   [
     {
       idsite:      1,
@@ -134,13 +129,12 @@ piwik.track (
 ```
 
 
-.loadSpammers
--------------
+## .loadSpammers
 **( callback )**
 
 Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
 
-[Open source list](https://github.com/piwik/referrer-spam-blacklist)
+[Open source list](https://github.com/matomo-org/referrer-spam-blacklist)
 
 **Disclaimer:** the example below is intended only for educational purposes. ;)
 
@@ -159,8 +153,7 @@ piwik.loadSpammers (function (err, list) {
 ```
 
 
-Callback and Errors
--------------------
+## Callback and Errors
 
 The callback function receives two parameters: `err` and `data`.
 When an error occurs `err` is an instance of `Error`.
@@ -176,7 +169,7 @@ track failed     | Track method failed    | `err.data`
 
 
 ```js
-piwik.api (props, function (err, data) {
+matomo.api (props, function (err, data) {
   if (err) {
     console.log (err);
     return;
@@ -187,8 +180,7 @@ piwik.api (props, function (err, data) {
 ```
 
 
-Unlicense
----------
+## Unlicense
 
 This is free and unencumbered software released into the public domain.
 
@@ -216,9 +208,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org>
 
 
-Author
-------
+## Author
 
 [Franklin van de Meent](https://frankl.in)
-
-[![Buy me a coffee](https://frankl.in/u/kofi/kofi-readme.png)](https://ko-fi.com/franklin)
