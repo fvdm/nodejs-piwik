@@ -7,7 +7,7 @@ piwik.api (
     method: 'Actions.getPageUrls',
     idSite: 1,
     period: 'day',
-    date: 'today'
+    date: 'today',
   },
-  console.log
+  console.log,
 );

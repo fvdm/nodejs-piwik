@@ -49,7 +49,7 @@ dotest.add ('.loadSpammers method', test => {
 // ! API error
 dotest.add ('API error', test => {
   const params = {
-    method: 'invalid method name'
+    method: 'invalid method name',
   };
 
   piwik.api (params, (err) => {
@@ -67,7 +67,7 @@ dotest.add ('.api method', test => {
     method: 'Actions.getPageUrls',
     idSite: siteId,
     period: 'year',
-    date: 'today'
+    date: 'today',
   };
 
   piwik.api (params, (err, data) => {
@@ -87,8 +87,8 @@ dotest.add ('.track method - one hit', test => {
     idsite: siteId,
     url: 'https://www.npmjs.com/package/piwik',
     cvar: {
-      1: ['node test', process.version]
-    }
+      1: ['node test', process.version],
+    },
   };
 
   piwik.track (params, (err, data) => {
@@ -108,16 +108,16 @@ dotest.add ('.track method - multiple hits', test => {
       idsite: siteId,
       url: 'https://www.npmjs.com/package/piwik',
       cvar: {
-        1: ['node test', process.version]
-      }
+        1: ['node test', process.version],
+      },
     },
     {
       idsite: siteId,
       url: 'https://github.com/fvdm/nodejs-piwik',
       cvar: {
-        1: ['node test', process.version]
-      }
-    }
+        1: ['node test', process.version],
+      },
+    },
   ];
 
   piwik.track (params, (err, data) => {
@@ -137,8 +137,8 @@ dotest.add ('.track method - without token', test => {
     idsite: siteId,
     url: 'https://www.npmjs.com/package/piwik',
     cvar: {
-      1: ['node test', process.version]
-    }
+      1: ['node test', process.version],
+    },
   };
 
   tmp.track (params, (err, data) => {
