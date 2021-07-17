@@ -13,8 +13,8 @@ var querystring = require ('querystring');
 var http = require ('httpreq');
 var app = {
   settings: {
-    timeout: 5000
-  }
+    timeout: 5000,
+  },
 };
 
 
@@ -63,7 +63,8 @@ function processResponse (err, res, callback) {
       callbackError ('api error', data.message, null, callback);
       return;
     }
-  } catch (e) {
+  }
+  catch (e) {
     callbackError ('response invalid', e, null, callback);
     return;
   }
@@ -99,7 +100,7 @@ function talk (props) {
     url: app.settings.baseURL + (props.path || ''),
     method: props.method,
     headers: {},
-    timeout: props.timeout || app.settings.timeout
+    timeout: props.timeout || app.settings.timeout,
   };
 
   // build request
@@ -113,7 +114,8 @@ function talk (props) {
 
   if (props.query) {
     options.parameters = props.query;
-  } else if (props.body) {
+  }
+  else if (props.body) {
     options.body = props.body;
     options.headers['Content-Type'] = 'application/json';
     options.headers['Content-Length'] = options.body.length;
@@ -147,7 +149,8 @@ function methodSetup (baseURL, token, timeout) {
   // override with custom token, and set timeout
   if (typeof token === 'number') {
     timeout = token;
-  } else if (token) {
+  }
+  else if (token) {
     app.settings.token = token;
   }
 
@@ -175,7 +178,7 @@ function methodApi (vars, callback) {
     method: 'GET',
     path: 'index.php',
     query: vars,
-    callback: callback || null
+    callback: callback || null,
   });
 
   return app;
@@ -223,7 +226,7 @@ function trackObject2request (obj) {
 
 function methodTrack (vars, callback) {
   var bulk = {
-    requests: []
+    requests: [],
   };
   var i;
 
@@ -236,7 +239,8 @@ function methodTrack (vars, callback) {
     for (i = 0; i < vars.length; i++) {
       bulk.requests.push (trackObject2request (vars[i]));
     }
-  } else if (vars instanceof Object) {
+  }
+  else if (vars instanceof Object) {
     // object
     bulk.requests.push (trackObject2request (vars));
   }
@@ -253,10 +257,11 @@ function methodTrack (vars, callback) {
 
       if (data.status === 'success' && callback) {
         callback (null, data);
-      } else if (callback) {
+      }
+      else if (callback) {
         callbackError ('track failed', data, null, callback);
       }
-    }
+    },
   });
 
   return app;
@@ -273,7 +278,7 @@ function methodTrack (vars, callback) {
 
 function methodLoadSpammers (callback) {
   var options = {
-    timeout: app.settings.timeout
+    timeout: app.settings.timeout,
   };
 
   http.get (
@@ -284,7 +289,8 @@ function methodLoadSpammers (callback) {
 
       if (err) {
         callback (err);
-      } else {
+      }
+      else {
         data = res.body
           .trim()
           .replace (/\s+\n/g, '\n')
@@ -293,7 +299,7 @@ function methodLoadSpammers (callback) {
 
         callback (null, data);
       }
-    }
+    },
   );
 
   return app;
