@@ -8,7 +8,6 @@ I don't feel like changing the package name, because people are using it in thei
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-piwik/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-piwik?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-piwik.svg)](https://greenkeeper.io/)
 
 * [node.js](https://nodejs.org)
 * [Piwik](https://matomo.org)
@@ -205,9 +204,10 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-For more information, please refer to <http://unlicense.org>
+For more information, please refer to <https://unlicense.org>
 
 
 ## Author
 
-[Franklin van de Meent](https://frankl.in)
+[Franklin](https://fvdm.com)
+| [Buy me a coffee](https://fvdm.com/donating)

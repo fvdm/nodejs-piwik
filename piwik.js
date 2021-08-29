@@ -1,9 +1,8 @@
 /*
 Name:           piwik
-Description:    Access a Piwik API or track hits with node.js
-Author:         Franklin van de Meent (https://frankl.in)
+Description:    Access a Matomo API or track hits with node.js
+Author:         Franklin (https://fvdm.com)
 Source & docs:  https://github.com/fvdm/nodejs-piwik
-Feedback:       https://github.com/fvdm/nodejs-piwik/issues
 License:        Unlicense (Public Domain, see UNLICENSE file)
                 (https://github.com/fvdm/nodejs-piwik/raw/develop/UNLICENSE)
 */
