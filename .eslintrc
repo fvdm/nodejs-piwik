@@ -1,4 +1,5 @@
 {
+  "root": true,
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module"
@@ -113,7 +114,6 @@
     "no-undef": "error",
     "no-undef-init": "error",
     "no-undefined": "error",
-    "no-underscore-dangle": "error",
     "no-unexpected-multiline": "error",
     "no-unneeded-ternary": "error",
     "no-unreachable": "error",
@@ -130,7 +130,6 @@
     "one-var": ["error", "never"],
     "operator-assignment": ["error", "always"],
     "operator-linebreak": ["error", "before"],
-    "padded-blocks": "off",
     "quote-props": ["error", "consistent"],
     "quotes": ["error", "single", "avoid-escape"],
     "radix": "error",
