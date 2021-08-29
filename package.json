@@ -24,10 +24,10 @@
     "httpreq": "^0.5.1"
   },
   "devDependencies": {
-    "dotest": "^2.1.0"
+    "dotest": "^2.9.0"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=12"
   },
   "keywords": [
     "analytics",
