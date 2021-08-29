@@ -12,16 +12,16 @@ pids
 # Test
 lib-cov
 coverage
-.nyc_output
 .grunt
 .lock-wscript
+.nyc_output
 
 # Compile
 build/Release
 
 # Dependencies
 node_modules
-jspm_packages
 .npm
 .node_repl_history
+.package.json
 package-lock.json
