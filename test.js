@@ -95,14 +95,15 @@ dotest.add ('.bulkApi method', test => {
     test (err)
       .isArray ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
-      .isArray ('fail', 'data[0]', data)
-      .isNotEmpty ('fail', 'data[0]', data)
-      .isObject ('fail', 'data[0][0]', data && data [0][0])
+      .isArray ('fail', 'data[0]', data[0])
+      .isNotEmpty ('fail', 'data[0]', data[0])
+      .isObject ('fail', 'data[0][0]', data[0] && data [0][0])
       .isString ('fail', 'data[0][0].label', data && data [0][0] && data [0][0] .label)
-      .isArray ('fail', 'data[1]', data)
-      .isNotEmpty ('fail', 'data[1]', data)
-      .isObject ('fail', 'data[1][1]', data && data [1][1])
+      .isArray ('fail', 'data[1]', data[1])
+      .isNotEmpty ('fail', 'data[1]', data[1])
+      .isObject ('fail', 'data[1][1]', data[1] && data [1][1])
       .isString ('fail', 'data[1][1].label', data && data [1][1] && data [1][1] .label)
+      .isEmpty('fail', 'data[2]', data[2])
       .done();
   });
 });
