@@ -183,6 +183,47 @@ function methodApi (vars, callback) {
   return app;
 }
 
+function encodeRequests (vars, requests) {
+
+  var requestsLength = requests.length;
+
+  for (let index = 0; index < requestsLength; index++) {
+
+    vars[`urls[${index}]`] = querystring.stringify (requests[index]);
+
+  }
+
+}
+
+/**
+ * Bulk API call
+ *
+ * @callback  callback
+ * @param     {array}    [vars]      Parameters
+ * @param     {function}  [callback]  `(err, res)`
+ * @returns   {object}    app
+ */
+
+function methodBulkApi (requests, callback) {
+  var vars = {};
+
+  vars.module = 'API';
+  vars.format = 'JSON';
+  vars.method = 'API.getBulkRequest';
+  vars.token_auth = app.settings.token;
+
+  encodeRequests(vars, requests);
+
+  talk ({
+    method: 'GET',
+    path: 'index.php',
+    query: vars,
+    callback: callback || null,
+  });
+
+  return app;
+}
+
 
 /**
  * Convert tracking object to full querystring
@@ -308,6 +349,7 @@ function methodLoadSpammers (callback) {
 // module
 app.setup = methodSetup;
 app.api = methodApi;
+app.bulkApi = methodBulkApi;
 app.track = methodTrack;
 app.loadSpammers = methodLoadSpammers;
 module.exports = app;
