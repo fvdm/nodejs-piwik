@@ -3,7 +3,7 @@
 Track hits and access a Matomo API with Node.js
 
 _The package is named after the previous name of Matomo.
-I don't feel like changing the package name, because people are using it in their apps._
+I don't feel like changing the name, because people are using it in their apps._
 
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
