@@ -15,19 +15,18 @@
     "url": "https://github.com/fvdm/nodejs-piwik/issues"
   },
   "main": "piwik.js",
-  "tonicExampleFilename": "example.js",
+  "runkitExampleFilename": "example.js",
   "files": [
-    "CHANGELOG.md",
     "example.js"
   ],
   "dependencies": {
-    "httpreq": "^0.5.1"
+    "httpreq": "^0.5.2"
   },
   "devDependencies": {
-    "dotest": "^2.9.0"
+    "dotest": "^2.12.1"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "keywords": [
     "analytics",
