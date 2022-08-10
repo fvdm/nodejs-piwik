@@ -5,7 +5,8 @@ on:
     branches: [ master, develop ]
   pull_request:
     branches: [ develop ]
-
+  schedule:
+    - cron: '42 18 * * 6'
 
 jobs:
   lts_versions:
@@ -13,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(curl -s https://raw.githubusercontent.com/fvdm/nodejs-versions/main/lts.json)"
+        run: echo "::set-output name=matrix::$(curl -s https://raw.githubusercontent.com/fvdm/nodejs-versions/main/lts-current.json)"
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
@@ -25,34 +26,47 @@ jobs:
       matrix:
         node-version: ${{ fromJson(needs.lts_versions.outputs.matrix) }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Test on Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: git fetch --prune --unshallow
-    - run: npm install
-    - run: npm test
-      env:
-        PIWIK_URL: ${{ secrets.PIWIK_URL }}
-        PIWIK_TOKEN: ${{ secrets.PIWIK_TOKEN }}
-        PIWIK_SITEID: ${{ secrets.PIWIK_SITEID }}
-        PIWIK_TIMEOUT: ${{ secrets.PIWIK_TIMEOUT }}
-    - run: npm audit --production
-    - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        flag-name: node-${{ matrix.node-version }}
-        parallel: true
+      - uses: actions/checkout@v3
+      - name: Test on Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
+        env:
+          PIWIK_URL: ${{ secrets.PIWIK_URL }}
+          PIWIK_TOKEN: ${{ secrets.PIWIK_TOKEN }}
+          PIWIK_SITEID: ${{ secrets.PIWIK_SITEID }}
+          PIWIK_TIMEOUT: ${{ secrets.PIWIK_TIMEOUT }}
+          DOTEST_NOCOV: ${{ secrets.DOTEST_NOCOV }}
+          DOTEST_MINCOV: ${{ secrets.DOTEST_MINCOV }}
+          DOTEST_COVFUNCTIONS: 100
+      - run: npm audit --production
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        if: always()
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: node-${{ matrix.node-version }}
+          parallel: true
 
-  finish:
-    name: "Finish"
+  good_build:
+    name: "Good build"
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+      - run: echo "Build was sucessfull"
+
+  finish:
+    name: "Upload coverage"
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

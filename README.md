@@ -3,14 +3,14 @@
 Track hits and access a Matomo API with Node.js
 
 _The package is named after the previous name of Matomo.
-I don't feel like changing the package name, because people are using it in their apps._
+I don't feel like changing the name, because people are using it in their apps._
 
 [![npm](https://img.shields.io/npm/v/piwik.svg?maxAge=3600)](https://github.com/fvdm/nodejs-piwik/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-piwik.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-piwik)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-piwik/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-piwik?branch=master)
 
-* [node.js](https://nodejs.org)
-* [Piwik](https://matomo.org)
+* [Node.js](https://nodejs.org)
+* [Matomo](https://matomo.org)
 * [API documentation](https://developer.matomo.org/api-reference/reporting-api-introduction)
 
 
@@ -23,9 +23,9 @@ const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123')
 matomo.track (
   {
     idsite:      1,
-    url:         'http://mysite.tld/some/page',
+    url:         'https://mysite.tld/some/page',
     action_name: 'Page Title',
-    _cvar:       { '1': ['group', 'customer'] }
+    _cvar:       { '1': ['group', 'customer'] },
   },
   console.log
 );
@@ -42,14 +42,14 @@ matomo.track (
 
 In order to use this module you need to start with `setup()`.
 
-argument | type    | required | description
-:--------|:--------|:---------|:-----------
-baseURL  | string  | yes      | The URL to your Matomo installation. Both HTTP and HTTPS are supported.
-token    | string  | no       | Your API access token. Either set `token` or include `token_auth` in the `baseURL`.
-timeout  | integer | no       | Request wait time out in ms, default `5000` (5 seconds).
+argument  | type    | description
+:---------|:--------|:-----------
+baseURL   | string  | The URL to your Matomo installation. Both HTTP and HTTPS are supported.
+[token]   | string  | Your API access token. Either set `token` or include `token_auth` in the `baseURL`.
+[timeout] | integer | Wait time in ms, default `5000` (5 seconds).
 
 ```js
-const matomo = require ('piwik') .setup ('https://example.tld/matomo/', 'abc123');
+const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123');
 ```
 
 
@@ -59,10 +59,10 @@ const matomo = require ('piwik') .setup ('https://example.tld/matomo/', 'abc123'
 Call an API method.
 
 
-argument | type     | required | description
-:--------|:---------|:---------|:----------------------
-vars     | object   | yes      | see [documentation](https://developer.matomo.org/api-reference/reporting-api-introduction)
-callback | function | yes      | `function (err, data)`
+argument | type     | description
+:--------|:---------|:----------------------
+vars     | object   | see [documentation](https://developer.matomo.org/api-reference/reporting-api-introduction)
+callback | function | `(err, data)`
 
 
 [Reporting API docs](https://developer.matomo.org/api-reference/reporting-api-introduction)
@@ -88,10 +88,10 @@ matomo.api (
 Track a hit.
 
 
-argument | type            | required | description
-:--------|:----------------|:---------|:----------------------
-vars     | object or array | yes      | see [documentation](https://developer.matomo.org/api-reference/tracking-api)
-callback | function        | no       | `function (err, data)`
+argument   | type            | description
+:----------|:----------------|:-----------
+vars       | object or array | see [documentation](https://developer.matomo.org/api-reference/tracking-api)
+[callback] | function        | `(err, data)`
 
 
 [Tracking API docs](https://developer.matomo.org/api-reference/tracking-api)
@@ -102,9 +102,9 @@ callback | function        | no       | `function (err, data)`
 matomo.track (
   {
     idsite:      1,
-    url:         'http://mysite.tld/some/page',
+    url:         'https://mysite.tld/some/page',
     action_name: 'Page Title',
-    _cvar:       { '1': ['group', 'customer'] }
+    _cvar:       { '1': ['group', 'customer'] },
   },
   console.log
 );
@@ -121,7 +121,7 @@ matomo.track (
       idsite:      1,
       url:         'http://mysite.tld/blog/123-hello',
       action_name: 'Hello World',
-    }
+    },
   ],
   console.log
 );
@@ -139,14 +139,14 @@ Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
 
 ```js
 const Kira = require ('Kira');
-const revenge = new Kira ();
+const revenge = new Kira();
 
-piwik.loadSpammers (function (err, list) {
+piwik.loadSpammers ((err, list) => {
   if (err) { return console.log (err); }
 
   // Destroy them all
-  list.forEach (function (target) {
-    revenge.kill ('http://'+ target, 200, 10000);
+  list.forEach (target => {
+    revenge.kill (`http://${target}`, 200, 10000);
   });
 });
 ```
@@ -160,7 +160,7 @@ When all is good `err` is `null` and `data` is set.
 
 
 message          | description            | additional
-:----------------|:-----------------------|:-------------------------
+:----------------|:-----------------------|:----------
 request failed   | Request cannot be made | see `err.error`
 http error       | HTTP error             | `err.code` and `err.body`
 api error        | API error              | `err.text`
@@ -168,7 +168,7 @@ track failed     | Track method failed    | `err.data`
 
 
 ```js
-matomo.api (props, function (err, data) {
+matomo.api (props, (err, data) => {
   if (err) {
     console.log (err);
     return;
