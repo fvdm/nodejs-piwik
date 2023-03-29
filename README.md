@@ -17,7 +17,7 @@ I don't feel like changing the name, because people are using it in their apps._
 ## Example
 
 ```js
-const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123');
+const matomo = require( 'piwik' ).setup( 'https://example.tld/matomo/', 'abc123' );
 
 // track a pageview
 matomo.track(
