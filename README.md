@@ -131,25 +131,9 @@ matomo.track(
 ## .loadSpammers
 **( callback )**
 
-Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
+Retrieve referrer spammers blocklist maintained by Matomo as an _array_.
 
 [Open source list](https://github.com/matomo-org/referrer-spam-blacklist)
-
-**Disclaimer:** the example below is intended only for educational purposes. ;)
-
-```js
-const Kira = require( 'Kira' );
-const revenge = new Kira();
-
-piwik.loadSpammers( ( err, list ) => {
-  if ( err ) return console.log( err );
-
-  // Destroy them all
-  list.forEach( target => {
-    revenge.kill( `http://${target}`, 200, 10000 );
-  } );
-} );
-```
 
 
 ## Callback and Errors
