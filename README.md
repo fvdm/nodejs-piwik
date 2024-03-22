@@ -17,10 +17,10 @@ I don't feel like changing the name, because people are using it in their apps._
 ## Example
 
 ```js
-const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123');
+const matomo = require( 'piwik' ).setup( 'https://example.tld/matomo/', 'abc123' );
 
 // track a pageview
-matomo.track (
+matomo.track(
   {
     idsite:      1,
     url:         'https://mysite.tld/some/page',
@@ -49,7 +49,7 @@ baseURL   | string  | The URL to your Matomo installation. Both HTTP and HTTPS a
 [timeout] | integer | Wait time in ms, default `5000` (5 seconds).
 
 ```js
-const matomo = require ('piwik').setup ('https://example.tld/matomo/', 'abc123');
+const matomo = require( 'piwik' ).setup( 'https://example.tld/matomo/', 'abc123' );
 ```
 
 
@@ -70,7 +70,7 @@ callback | function | `(err, data)`
 
 ```js
 // page urls for today
-matomo.api (
+matomo.api(
   {
     method:   'Actions.getPageUrls',
     idSite:   1,
@@ -99,7 +99,7 @@ vars       | object or array | see [documentation](https://developer.matomo.org/
 
 ```js
 // track a pageview
-matomo.track (
+matomo.track(
   {
     idsite:      1,
     url:         'https://mysite.tld/some/page',
@@ -110,7 +110,7 @@ matomo.track (
 );
 
 // track many at once (log import)
-matomo.track (
+matomo.track(
   [
     {
       idsite:      1,
@@ -131,25 +131,9 @@ matomo.track (
 ## .loadSpammers
 **( callback )**
 
-Retrieve referrer spammers blocklist maintained by Piwik as an _array_.
+Retrieve referrer spammers blocklist maintained by Matomo as an _array_.
 
 [Open source list](https://github.com/matomo-org/referrer-spam-blacklist)
-
-**Disclaimer:** the example below is intended only for educational purposes. ;)
-
-```js
-const Kira = require ('Kira');
-const revenge = new Kira();
-
-piwik.loadSpammers ((err, list) => {
-  if (err) { return console.log (err); }
-
-  // Destroy them all
-  list.forEach (target => {
-    revenge.kill (`http://${target}`, 200, 10000);
-  });
-});
-```
 
 
 ## Callback and Errors
@@ -168,14 +152,14 @@ track failed     | Track method failed    | `err.data`
 
 
 ```js
-matomo.api (props, (err, data) => {
-  if (err) {
-    console.log (err);
+matomo.api( props, ( err, data ) => {
+  if ( err ) {
+    console.log( err );
     return;
   }
 
-  console.log (data);
-});
+  console.log( data );
+} );
 ```
 
 
