@@ -80,6 +80,34 @@ dotest.add ('.api method', test => {
   });
 });
 
+// ! Bulk API
+dotest.add ('.bulkApi method', test => {
+  const params = {
+    method: 'Actions.getPageUrls',
+    idSite: siteId,
+    period: 'year',
+    date: 'today',
+  };
+
+  const requests = [params, params];
+
+  piwik.bulkApi (requests, (err, data) => {
+    test (err)
+      .isArray ('fail', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isArray ('fail', 'data[0]', data[0])
+      .isNotEmpty ('fail', 'data[0]', data[0])
+      .isObject ('fail', 'data[0][0]', data[0] && data [0][0])
+      .isString ('fail', 'data[0][0].label', data && data [0][0] && data [0][0] .label)
+      .isArray ('fail', 'data[1]', data[1])
+      .isNotEmpty ('fail', 'data[1]', data[1])
+      .isObject ('fail', 'data[1][1]', data[1] && data [1][1])
+      .isString ('fail', 'data[1][1].label', data && data [1][1] && data [1][1] .label)
+      .isEmpty('fail', 'data[2]', data[2])
+      .done();
+  });
+});
+
 
 // ! Track one
 dotest.add ('.track method - one hit', test => {
